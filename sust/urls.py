@@ -5,13 +5,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-# from home.views import homepage
+from home.views import homepage
 
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    # url(r'^', include(home.urls)),
+    url(r'^$', homepage, name='home'),
     url(r'^forum/', include('forum.urls')),
     url(r'^users/', include('users.urls')),
     url(r'^accounts/', include('allauth.urls')),
