@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load markdown %}
+
+{% block title %}| Edit Comment{% endblock %}
+
+
+
+{% block content %}
+
+
+<div class="container-fluid" style="padding-top: 100px;"></div>
+<div class="container">
+	<h1>Replying to:</h1>
+
+	<div class="row">
+		<div class="col-md-4 col-sm-6">
+			<br>
+			<form method="post">
+				{% csrf_token %}
+				{{ form | crispy }}
+				<input type="submit" value="Edit Comment">
+			</form>
+			<strong>Preview</strong>
+			<div class="comment-text">
+				<p id="preview"></p>
+			</div>
+			<br>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block before-body-close %}
+<script>
+	$("#id_text").focus();
+	$("#id_text").bind('input propertychange', function() {
+		html_content = markdown.toHTML(this.value);
+		$("#preview").html(html_content)
+	});
+</script>
+<script src="{% static 'js/markdown.min.js' %}"></script>
+{% endblock %}

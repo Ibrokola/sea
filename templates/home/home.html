@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container-fluid" style="padding-top: 80px;">{% include 'forum/carousel.html' %}</div>
+<div class="container">
+    <div class="divider-new">
+        <h2 class="h2-responsive">Why join SEA?</h2>
+    </div>
+    <section class="container marketing">
+    	<div class="row text-center">
+    		<div class="col-lg-3 col-md-6 mb-r wow fadeInLeft" data-wow-delay="0.2s">
+                <div class="avatar">
+                    <img src="https://mdbootstrap.com/images/avatars/img%20(1).jpg" class="rounded-circle" width="140" height="140">
+                </div>
+                <h4>Anna Deynah</h4>
+                <h5>Web Designer</h5>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id officiis hic tenetur quae quaerat ad velit ab.</p>
+            </div>
+    	</div>
+    </section>
+</div>
+
+{% endblock %}

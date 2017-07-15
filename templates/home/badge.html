@@ -1,0 +1,47 @@
+{% load static %}
+<!-- <section class="info-box" id="user_info">
+	<h1>Profile</h1>
+	<img src="" class="rounded-circle" width="140" height="140" alt="user_profile">
+	<ul>
+		<li>Rank: {{ user.rank }}</li>
+		<li>Name: {{ user.name }}</li>
+		<li>Email: {{ user.email }}</li>
+	</ul>
+	
+</section> -->
+
+<section class="wow fadeIn">        
+    <!--Card-->
+    <div class="card author-card">
+
+        <!--Background image-->
+        <div class="card-up">
+            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/8-col/img%20%2831%29.jpg" class="img-fluid">
+        </div>
+
+        <!--Avatar-->
+        <div class="avatar">
+            <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-author" width="140" height="140" alt="profie.picture">
+        </div>
+
+        <div class="card-block">
+           
+            <!--Name-->
+            <h4 class="card-title"><strong>username: {{ user.username }}</strong></h4>
+            <!--Description-->
+            <p>Rank: {{ user.rank }}</p>
+            <p>Email: {{ user.email }}</p>
+            <!--Dribbble-->
+            <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a>
+            <!--Instagram-->
+            <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a>
+            <!--Pinterest-->
+            <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a>
+
+        </div>
+
+    </div>
+    <!--/Card-->
+    
+</section>
+

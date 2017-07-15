@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}{% endblock %}
+
+
+
+{% block content %}
+
+<div class="container-fluid" style="padding-top: 80px;"></div>
+<div class="container -fluid">
+    <section class="member-page">
+    	<div class="row">
+    		<div class="col-sm-8">
+            {# include 'forum/statusupdate.html' #}
+            {% include 'forum/latest_update.html' %}    
+            </div>
+            <div class="col-sm-4">
+                {% include 'forum/badge.html' %}
+            </div>            
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}

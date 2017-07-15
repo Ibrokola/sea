@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags always come first -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}SEA{% endblock %}</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Material Design Bootstrap -->
+    <link href="{% static 'css/mdb.css' %}" rel="stylesheet">
+
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+    <style>
+        /* Carousel and pictures */
+        
+        .view:not(.hm-zoom) {
+            overflow: hidden;
+            navbar {
+                background-color: transparent;
+            }
+            .top-nav-collapse {
+                background-color: #5e35b1;
+            }
+            @media only screen and (max-width: 768px) {
+                .navbar {
+                    background-color: #5e35b1;
+                }
+            }
+        }
+    </style>
+
+</head>
+
+<body class="mdb-skin">
+
+    <!--Double navigation-->
+    <header>
+        {% include 'navbar.html' %}
+    </header>
+    <!--/Double navigation-->
+
+    <!--Main layout-->
+    <main>
+        <div class="" style="min-height: 800px;">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <!--/Main layout-->
+
+    <footer>
+        {% include 'footer.html' %}
+    </footer>
+
+    <!-- JQuery -->
+    <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
+
+    <!-- Tooltips -->
+    <script type="text/javascript" src="{% static 'js/tether.min.js' %}"></script>
+
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
+
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="{% static 'js/mdb.js' %}"></script>
+
+    <script type="text/javascript" src="{# static 'js/main.js' #}"></script>
+
+    {% if request.user.is_authenticated %}
+    <script src="{# static 'pushnot.js' #}"></script>
+    {% endif %} {% block before-body-close %} {% endblock %}
+    <script>
+        // SideNav init
+        $(".button-collapse").sideNav();
+        var el = document.querySelector('.custom-scrollbar');
+        Ps.initialize(el);
+    </script>
+
+    <script>
+        new WOW().init();
+    </script>
+</body>
+
+</html>

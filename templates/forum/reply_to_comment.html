@@ -1,0 +1,45 @@
+{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {% load markdown %} {% block title %}Reply to Comment{% endblock %} {% block content %}
+
+
+<div class="container-fluid" style="padding-top: 100px;"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="col-sm-12">
+                <h1>Replying to:</h1>
+                <div class="comment-text">
+                    <p>
+                        {{ parent_comment.text | markdown }}
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <br>
+                    <form method="post">
+                        {% csrf_token %} {{ form|crispy }}
+                        <button type="submit" class="btn btn-default btn-sm">Submit Comment</button>
+                    </form>
+                    <br>
+                    <strong>Preview</strong>
+                    <div class="comment-text">
+                        <p id="preview"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            {% include "forum/snippet/sidebar.html" with obj_type=posts obj=post %}
+        </div>
+    </div>
+</div>
+{% endblock %} {% block before-body-close %}
+<script>
+    $("#id_text").focus();
+    $('#id_text').bind('input propertychange', function() {
+        html_content = markdown.toHTML(this.value);
+        $("#preview").html(html_content)
+    });
+</script>
+<script src="{% static 'js/markdown.min.js' %}"></script>
+{% endblock %}

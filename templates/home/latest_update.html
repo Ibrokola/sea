@@ -1,0 +1,31 @@
+{# load humanize #}
+<div class="container-fluid">
+	<!-- <form id="defaults">
+		<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+	</form> -->
+	<div class="posts">
+		{% for post in posts %}
+		<div class="post">
+			<div>
+				<div class="post-title">
+					<a href=""> <!-- {# url 'discussion' post.id #} {{ post.get_absolute_url }}--> 
+						<h2>{{ post.title }}</h2>
+					</a>
+				</div>
+				<div class="post-line-2">
+					<div class="post-score">
+						by {{ post.author }} |
+						{{ post.score }} points |
+						{{ post.num_comments }} comment{{ post.num_comments|pluralize }}
+						| {{ post.submission_time }}
+						{% include "forum/snippet/post_vote_control.html" with obj_type='posts' obj=post %}
+						{% if request.user.is_staff %}
+						| <a href="{% url 'admin:forum_post_change' post.id %}">admin</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
