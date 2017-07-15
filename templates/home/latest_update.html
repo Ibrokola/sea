@@ -8,7 +8,7 @@
 		<div class="post">
 			<div>
 				<div class="post-title">
-					<a href=""> <!-- {# url 'discussion' post.id #} {{ post.get_absolute_url }}--> 
+					<a href="{% url 'discussion' post.id %}"> <!-- {# url 'discussion' post.id #} {{ post.get_absolute_url }}--> 
 						<h2>{{ post.title }}</h2>
 					</a>
 				</div>
