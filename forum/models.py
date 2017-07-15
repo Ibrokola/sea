@@ -15,8 +15,8 @@ from django.urls import reverse
 SERVER_URL = "http://127.0.0.1:8000/"
 
 UPVOTE   = 1
-DOWNVOTE = 2
-FLAG     = 3
+DOWNVOTE = 1
+FLAG     = 1
  
 
 class Vote(models.Model):
@@ -42,7 +42,7 @@ class Vote(models.Model):
 
 class Votable(models.Model):
     """ An object on which people would want to vote
-        Post and Comment are concrete classes
+        Post and Comment are real classes
     """
     class Meta:
         abstract = True
