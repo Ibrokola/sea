@@ -9,7 +9,7 @@ class CommentInline(admin.TabularInline):
 class PostAdmin(admin.ModelAdmin):
 	inlines = [CommentInline]
 	list_display = ('title', 'url', 'submission_time', 'num_comments')
-	fields       = ('title', 'url', 'text', 'author', 'num_comments', 'upvotes', 'downvotes', 'flags')
+	fields       = ('title', 'url', 'slug', 'text', 'author', 'num_comments', 'upvotes', 'downvotes', 'flags')
 
 
 class CommentAdmin(admin.ModelAdmin):

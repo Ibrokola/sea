@@ -10,7 +10,10 @@
                 <hr>
                 <div class="post-line-2">
                     <div class="post-score">
-                        by <a href="{{ post.author.username.profile.get_absolute_url }}">{{ post.author.username }}</a> . {{ post.score }} point{{ post.score | pluralize }} . <a><i class="fa fa-comments-o"></i> {{ comments|length }}</a> . <i class="fa fa-clock-o"></i>                        {{ post.submission_time | naturaltime }} {% if request.user.is_staff %} . <a href="{% url 'admin:forum_post_change' post.id %}">admin</a>{% endif %}
+                        by <a href="{{ post.author.username.profile.get_absolute_url }}">{{ post.author.username }}</a> . {{ post.score }} point{{ post.score | pluralize }} . <a><i class="fa fa-comments-o"></i> {{ comments|length }}</a> . <i class="fa fa-clock-o"></i>
+                        {{ post.submission_time | naturaltime }} 
+                            {% if request.user.is_staff %} . <a href="{% url 'admin:forum_post_change' post.id %}">admin</a>
+                        {% endif %}
                     </div>
                     {% if post.text %}
                     <div class="post">
@@ -43,7 +46,7 @@
                                 <span> . </span>
                                 <span class="comment-submission-time"><i class="fa fa-clock-o"></i> {{ comment.submission_time | naturaltime }}</span> {% if request.user.username == comment.author.username %}
                                 <span> . </span>
-                                <span><a href="{% url 'edit_comment' comment.id %}">edit</a></span> {% endif %}
+                                <span><a href="{% url 'forum:edit_comment' comment.id %}">edit</a></span> {% endif %}
                                 <!-- <span><a href="#comment-{{comment.id}}">permalink</a></span> -->{% if request.user.is_staff %}
                                 <span> . </span>
                                 <span>
@@ -56,7 +59,7 @@
                                 </p>
                             </div>
                             {% if comment.indent < 6 %} 
-                            <a href="{% url 'reply_to_comment' comment.id %}">reply</a>
+                            <a href="{% url 'forum:reply_to_comment' comment.id %}">reply</a>
                                 {% else %}
                                 <span><i>replies not allowed anymore</i></span> {% endif %}
                         </div>

@@ -6,16 +6,20 @@ from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKe
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MinValueValidator, MaxValueValidator
 from users.models import MyUser as User
+
+from django.db.models.signals import pre_save, post_save
+from django.core.urlresolvers import reverse
+from .utils import unique_slug_generator
 from django.db import models
 from django.db.models import F
-from django.urls import reverse
+# from django.urls import reverse
 
 # from .utils import notify_users
 
 SERVER_URL = "http://127.0.0.1:8000/"
 
-UPVOTE   = 1
-DOWNVOTE = 1
+UPVOTE   = 3
+DOWNVOTE = 2
 FLAG     = 1
  
 
@@ -29,7 +33,7 @@ class Vote(models.Model):
     # The following 3 fields represent the Comment or Post
     # on which a vote has been cast
     # See Generic Relations in Django's documentation
-    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
+    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT) # gets the contenttype for each model inheriting it
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     voter = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -66,7 +70,7 @@ class Votable(models.Model):
         self._vote(user, FLAG)
 
     def unflag(self, user):
-        raise Exception("not yet implemented")
+        raise Exception("can't be unflagged")
 
     def undo_vote(self, user):
         content_type = ContentType.objects.get_for_model(self)
@@ -128,12 +132,14 @@ class Votable(models.Model):
 
     def _already_voted(self, user, content_type, type_of_vote):
         return Vote.objects.filter(content_type=content_type.id,
-                    object_id=self.id,\
-                    voter=user, type_of_vote=type_of_vote)\
-                .exists()
+                                object_id=self.id,
+                                voter=user, 
+                                type_of_vote=type_of_vote).exists()
+
+
 
 class PostsManager(models.Manager):
-    def get_post_with_my_votes(self, post_id, user):
+    def get_post_with_my_votes(self, post_id, user, *args, **kwargs):
         post = Post.objects.annotate(score=F('upvotes') - F('downvotes')).select_related("author").get(pk=post_id)
 
         if user and user.is_authenticated():
@@ -154,7 +160,14 @@ class PostsManager(models.Manager):
         if user:
             posts = self._append_votes_by_user(posts, user)
         return posts
-
+    
+    # get individual post from specific authors
+    def get_author_post(self, user=None):
+        auth_post = Post.objects.filter(author__username__iexact=user)
+        if user:
+            auth_post = Post.objects.filter(author__username__iexact=user)
+        return auth_post
+    
     def _append_votes_by_user(self, posts, user):
         # Returns a dictionary
         # key = postid
@@ -200,16 +213,24 @@ class Post(Votable):
         ]
     objects = PostsManager()
     title = models.CharField(max_length=120)
+    slug = models.SlugField(null=True, blank=True)
     url = models.URLField(blank=True)
     text = models.TextField(blank=True, max_length=8192)
     submission_time = models.DateTimeField(auto_now_add=True)
     num_comments = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
 
-    def get_absolute_url(self):
-        return "/discuss/%i/" % self.id
+    # def get_absolute_url(self):
+    #     return "/discuss/%i/" % self.id
 
-    def add_comment(self, text, author):
+    # def get_absolute_url(self):
+	# 	return reverse('video_detail', kwargs={"vid_slug": self.slug, "cat_slug": self.category.slug})
+
+
+    def get_absolute_url(self):
+        return reverse('forum:discussion', kwargs={"post_id": self.pk, "post_slug": self.slug})
+
+    def add_comment(self, text, author, *args, **kwargs):
         comment = Comment()
         comment.text = text
         comment.post = self
@@ -233,9 +254,16 @@ class Post(Votable):
     def __str__(self):
         return self.title
 
+def post_pre_save_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(post_pre_save_receiver, sender=Post)
+
 
 class CommentsManager(models.Manager):
-    def best_ones_first(self, post_id, user_id):
+    def best_ones_first(self, post_id, post_slug, user_id):
         comment_type = ContentType.objects.get_for_model(Comment)
         
         from django.db import connection
@@ -252,7 +280,7 @@ class CommentsManager(models.Manager):
                     SELECT 1 as is_upvoted, v1.object_id as comment_id
                     FROM votes v1
                     WHERE v1.content_type_id = %s
-                    AND type_of_vote = 1
+                    AND type_of_vote = 3
                     AND v1.voter_id = %s
                 ) up on c.id = up.comment_id
                 LEFT OUTER JOIN (
@@ -301,6 +329,7 @@ class Comment(Votable):
                 on_delete=models.PROTECT)
     text = models.TextField(max_length=8192)
     submission_time = models.DateTimeField(auto_now_add=True)
+    num_reply = models.IntegerField(default=0)
     
     # wbs helps us to track the comments as a tree
     # Format is .0000.0000.0000.0000.0000.0000
@@ -320,6 +349,10 @@ class Comment(Votable):
 
         comment.post.num_comments = F('num_comments') + 1
         comment.post.save()
+        
+        #Gives sum of replies to parent comment
+        self.num_reply = F('num_reply') + 1
+        self.save(update_fields=["num_reply"])
 
         # if(comment.post.author.username != author.username):
         #     notify_users(

@@ -12,7 +12,7 @@ from home.views import homepage
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', homepage, name='home'),
-    url(r'^forum/', include('forum.urls')),
+    url(r'^forum/', include('forum.urls', namespace='forum')),
     url(r'^users/', include('users.urls')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnot/', include('pushnote.urls')),

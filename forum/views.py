@@ -14,7 +14,7 @@ from django.shortcuts import render, get_object_or_404
 
 
 
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
 from .forms import CommentForm, StartDiscussionForm
@@ -23,33 +23,34 @@ from .models import Post, Vote, Comment, Favourite
 # Discussion View, renders the discussion/topic posting to the author/other users
 @method_decorator(login_required, name='post')
 class DiscussionView(View):
-	def get(self, request, post_id, *args, **kwargs):
+    def get(self, request, post_id, *args, **kwargs):
+        print(kwargs)
     	# logic to render if requested user is authenticated
-		if request.user.is_authenticated():
-			post = Post.objects.get_post_with_my_votes(post_id, request.user)
-			comments = Comment.objects.best_ones_first(post_id, request.user.id)
-			form = CommentForm()
-			context = {"post": post, "comments": comments, "form": form}
-			return render(request, "forum/discussion.html", context)
-		else:
-			return HttpResponseRedirect(reverse('account_login'))
+        if request.user.is_authenticated():
+            post = Post.objects.get_post_with_my_votes(post_id, request.user)
+            comments = Comment.objects.best_ones_first(post_id, request.user.id)
+            form = CommentForm()
+            context = {"post": post, "comments": comments, "form": form}
+            return render(request, "forum/discussion.html", context)
+        else:
+            return HttpResponseRedirect(reverse('account_login'))
 
-	def post(self, request, post_id):
-		user = request.user
-		post = Post.objects.get_post_with_my_votes(post_id, user)
-		form = CommentForm(request.POST)
-		if form.is_valid():
-			comment = post.add_comment(form.cleaned_data['text'], user)
-			post_url = reverse('discussion', args=[post.id])
-			return HttpResponseRedirect(post_url)
-		else:
-			template = 'forum/discussion.html'
-			context = {
-				"post": post,
-				"form": form,
-				"comments": []
-			}
-			return render(request, template, context)
+    def post(self, request, post_id):
+        user = request.user
+        post = Post.objects.get_post_with_my_votes(post_id, user)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = post.add_comment(form.cleaned_data['text'], user)
+            post_url = reverse('discussion', args=[post.id])
+            return HttpResponseRedirect(post_url)
+        else:
+            template = 'forum/discussion.html'
+            context = {
+                "post": post,
+                "form": form,
+                "comments": []
+            }
+            return render(request, template, context)
 
 
 class ReplyToComment(LoginRequiredMixin, View):
@@ -78,7 +79,7 @@ class ReplyToComment(LoginRequiredMixin, View):
 			}
 			return render(request, template, context)
 		comment = parent_comment.reply(form.cleaned_data['text'], request.user)
-		post_url = reverse('discussion', args=[parent_comment.post.id])
+		post_url = reverse('forum:discussion', args=[parent_comment.post.id, parent_comment.post_slug])
 		return HttpResponseRedirect(post_url)
 
 
@@ -93,25 +94,26 @@ class EditComment(LoginRequiredMixin, View):
 
 
 class StartDiscussionView(LoginRequiredMixin, View):
-	def get(self, request, *args, **kwargs):
-		user = request.user
-		form = StartDiscussionForm(initial={"author": user})
-		template = 'forum/start.html'
-		context = {"form": form}
-		return render(request, template, context)
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        form = StartDiscussionForm(initial={"author": user})
+        template = 'forum/start.html'
+        context = {"form": form}
+        return render(request, template, context)
 
-	def post(self, request, *args, **kwargs):
-		form = StartDiscussionForm(request.POST)
-		template = 'forum/start.html'
-		context = {"form": form}
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.author = request.user
-			post.save()
-			new_post_url = reverse('discussion', args=[post.id])
-			return HttpResponseRedirect(new_post_url)
-		else:
-			return render(request, template, context)
+    def post(self, request, *args, post_slug, **kwargs):
+        post_slug = self.kwargs.get('slug')
+        form = StartDiscussionForm(request.POST)
+        template = 'forum/start.html'
+        context = {"form": form}
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            new_post_url = reverse('forum:discussion', args=[post.id, post_slug])
+            return HttpResponseRedirect(new_post_url)
+        else:
+            return render(request, template, context)
 
 
 

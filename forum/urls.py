@@ -15,7 +15,8 @@ from .views import (DiscussionView,
 
 
 urlpatterns = [
-	url(r'^discussion/(?P<post_id>\d+)/$', DiscussionView.as_view(), name="discussion"),
+	# url(r'^discussion/(?P<post_id>\d+)/$', DiscussionView.as_view(), name="discussion"),
+	url(r'^discussion/(?P<post_id>\d+)/(?P<post_slug>[\w-]+)/$', DiscussionView.as_view(), name="discussion"),
 	url(r'^start_discussion/$', StartDiscussionView.as_view(), name='start_discussion'),
 	
 	url(r'^comments/(?P<id>\d+)/reply/$', ReplyToComment.as_view(), name='reply_to_comment'),
