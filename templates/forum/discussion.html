@@ -9,8 +9,8 @@
                 </div>
                 <hr>
                 <div class="post-line-2">
-                    <div class="post-score">
-                        by <a href="{{ post.author.username.profile.get_absolute_url }}">{{ post.author.username }}</a> . {{ post.score }} point{{ post.score | pluralize }} . <a><i class="fa fa-comments-o"></i> {{ comments|length }}</a> . <i class="fa fa-clock-o"></i>
+                    <div class="post-score"> {# url 'forum:discussion' post.id post_slug #} <!-- {{ author.profile.get_absolute_url }} -->
+                        by <a href="{% url 'users:profile_view' post.author.username %}">{{ post.author.username }}</a> . {{ post.score }} point{{ post.score | pluralize }} . <a><i class="fa fa-comments-o"></i> {{ comments|length }}</a> . <i class="fa fa-clock-o"></i>
                         {{ post.submission_time | naturaltime }} 
                             {% if request.user.is_staff %} . <a href="{% url 'admin:forum_post_change' post.id %}">admin</a>
                         {% endif %}

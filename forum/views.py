@@ -11,6 +11,7 @@ from django.views import View
 
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, get_object_or_404
+from users.models import UserProfile as Profile
 
 
 
@@ -29,6 +30,7 @@ class DiscussionView(View):
         if request.user.is_authenticated():
             post = Post.objects.get_post_with_my_votes(post_id, request.user)
             comments = Comment.objects.best_ones_first(post_id, request.user.id)
+            # profile = Profile.objects.
             form = CommentForm()
             context = {"post": post, "comments": comments, "form": form}
             return render(request, "forum/discussion.html", context)
@@ -101,8 +103,8 @@ class StartDiscussionView(LoginRequiredMixin, View):
         context = {"form": form}
         return render(request, template, context)
 
-    def post(self, request, *args, post_slug, **kwargs):
-        post_slug = self.kwargs.get('slug')
+    def post(self, request, *args, **kwargs):
+        # post_slug = self.kwargs.get('slug')
         form = StartDiscussionForm(request.POST)
         template = 'forum/start.html'
         context = {"form": form}
@@ -110,7 +112,7 @@ class StartDiscussionView(LoginRequiredMixin, View):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            new_post_url = reverse('forum:discussion', args=[post.id, post_slug])
+            new_post_url = reverse('forum:discussion', args=[post.id])
             return HttpResponseRedirect(new_post_url)
         else:
             return render(request, template, context)
