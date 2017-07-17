@@ -24,7 +24,7 @@ from .models import Post, Vote, Comment, Favourite
 @method_decorator(login_required, name='post')
 class DiscussionView(View):
     def get(self, request, post_id, *args, **kwargs):
-        print(kwargs)
+        # post_slug = self.kwargs.get('slug')
     	# logic to render if requested user is authenticated
         if request.user.is_authenticated():
             post = Post.objects.get_post_with_my_votes(post_id, request.user)
@@ -41,7 +41,7 @@ class DiscussionView(View):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = post.add_comment(form.cleaned_data['text'], user)
-            post_url = reverse('discussion', args=[post.id])
+            post_url = reverse('forum:discussion', args=[post.id])
             return HttpResponseRedirect(post_url)
         else:
             template = 'forum/discussion.html'

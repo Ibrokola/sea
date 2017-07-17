@@ -228,7 +228,8 @@ class Post(Votable):
 
 
     def get_absolute_url(self):
-        return reverse('forum:discussion', kwargs={"post_id": self.pk, "post_slug": self.slug})
+        # return reverse('forum:discussion', kwargs={"post_id": self.pk, "post_slug": self.slug})
+        return reverse('forum:discussion', kwargs={"post_id": self.pk})
 
     def add_comment(self, text, author, *args, **kwargs):
         comment = Comment()
@@ -263,7 +264,7 @@ pre_save.connect(post_pre_save_receiver, sender=Post)
 
 
 class CommentsManager(models.Manager):
-    def best_ones_first(self, post_id, post_slug, user_id):
+    def best_ones_first(self, post_id, user_id):
         comment_type = ContentType.objects.get_for_model(Comment)
         
         from django.db import connection
