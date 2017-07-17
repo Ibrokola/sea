@@ -11,6 +11,7 @@ from django.views import View
 
 from .models import UserProfile as Profile
 
+from forum.models import Post
 
 User = get_user_model()
 # User = settings.AUTH_USER_MODEL
@@ -32,9 +33,14 @@ class ProfileUserView(LoginRequiredMixin, View):
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
+        post = Post.objects.filter(author__username__iexact=user)
+        print(post)
         profile, created = Profile.objects.get_or_create(user=user)
         template = 'users/profile_view.html'
-        context = {'profile': profile}
+        context = {
+            'profile': profile,
+            'post': post
+            }
         return render(request, template, context)
 
 

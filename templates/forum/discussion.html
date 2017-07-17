@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load humanize %} {% load crispy_forms_tags %} {% load markdown %} {% block title %}{{ post.title }}{% endblock %} {% block content %}
 <div class="container-fluid" style="padding-top: 100px;"></div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-sm-8">
             <div class="col-sm-12">
@@ -36,7 +36,7 @@
                     {% for comment in comments %}
                     <div id="comment-{{comment.id}}" class="comment indent-{{comment.indent}}">
                         {% include "forum/snippet/post_vote_control.html" with obj_type=posts obj=post %}
-                        <div>
+                        <div class="">
                             <div class="comment-header">
                                 <span class="comment-author">
             						by <a href="">{{ comment.author.username }}</a>
@@ -44,9 +44,11 @@
                                 <span> . </span>
                                 <span>{{comment.score}} points</span>
                                 <span> . </span>
-                                <span class="comment-submission-time"><i class="fa fa-clock-o"></i> {{ comment.submission_time | naturaltime }}</span> {% if request.user.username == comment.author.username %}
+                                <span class="comment-submission-time"><i class="fa fa-clock-o"></i> {{ comment.submission_time | naturaltime }}</span> 
+                                {% if request.user.username == comment.author.username %}
                                 <span> . </span>
-                                <span><a href="{% url 'forum:edit_comment' comment.id %}">edit</a></span> {% endif %}
+                                <span><a href="{% url 'forum:edit_comment' comment.id %}">edit</a></span> 
+                                {% endif %}
                                 <!-- <span><a href="#comment-{{comment.id}}">permalink</a></span> -->{% if request.user.is_staff %}
                                 <span> . </span>
                                 <span>
@@ -59,12 +61,16 @@
                                 </p>
                             </div>
                             {% if comment.indent < 6 %} 
-                            <a href="{% url 'forum:reply_to_comment' comment.id %}">reply</a>
+                            <a href="{% url 'forum:reply_to_comment' comment.id %}"<button class="btn btn-default btn-sm">reply</button></a>
                                 {% else %}
-                                <span><i>replies not allowed anymore</i></span> {% endif %}
+                                <span><i>replies not allowed anymore</i></span> 
+                            {% endif %}
+                            
                         </div>
                     </div>
+
                     {% endfor %}
+                    
                 </div>
             </div>
         </div>

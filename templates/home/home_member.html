@@ -13,41 +13,45 @@
     	<div class="row">
     		<div class="col-sm-8">
             {# include 'forum/statusupdate.html' #}
+            <h4 class="h4-responsive">Welcome <strong>{{ user.username }}</strong>, here are the latest posts <small><span><button class="btn btn-default btn-sm float-right">Start a discussion</button></span></small></h4> 
+            <hr>
             {% include 'home/latest_update.html' %}    
             </div>
             <div class="col-sm-4">
                 {# include 'home/badge.html' #}
                 <section class="wow fadeIn">        
                     <!--Card-->
-                    <div class="card author-card">
-
-                        <!--Background image-->
-                        <div class="card-up">
-                            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/8-col/img%20%2831%29.jpg" class="img-fluid">
-                        </div>
-
                         <!--Avatar-->
-                        <div class="avatar">
-                            <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-author" width="140" height="140" alt="profie.picture">
+                    {% for item in profile %}
+                        <div class="">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">
+                            {% else %}
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
+                            {% endif %}                        
                         </div>
 
                         <div class="card-block">
                         
                             <!--Name-->
-                            <h4 class="card-title"><strong>username: {{ user.username }}</strong></h4>
+                            <h4 class="card-title"><strong>username: {{ item.user.username }}</strong></h4>
                             <!--Description-->
-                            <p>Rank: {{ user.rank }}</p>
-                            <p>Email: {{ user.email }}</p>
+                            <hr>
+                            <p>Rank: {{ item.user.rank }}</p>
+                            <hr>
+                            <p>Points: {{ profile.user.rank }}</p>
+                            <hr>
+                            <p>Email: {{ item.user.email }}</p>
+                            <hr>
                             <!--Dribbble-->
                             <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a>
                             <!--Instagram-->
                             <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a>
                             <!--Pinterest-->
                             <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a>
-
+                            <p>click <button class="btn btn-default btn-sm">Here</button> to update profile info</p>
                         </div>
-
-                    </div>
+                    {% endfor %}
                     <!--/Card-->
                 </section>
             </div>            
