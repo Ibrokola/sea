@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from forum.models import Post
 from users.models import UserProfile as Profile
+from .models import HomeCarousel, Marketing
 
 def homepage(request):	
     if request.user.is_authenticated():

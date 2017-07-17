@@ -30,9 +30,16 @@ class DiscussionView(View):
         if request.user.is_authenticated():
             post = Post.objects.get_post_with_my_votes(post_id, request.user)
             comments = Comment.objects.best_ones_first(post_id, request.user.id)
-            # profile = Profile.objects.
+            side1 = Post.objects.filter(num_comments__gte=10)[:5]
+            side2 = Post.objects.order_by('-submission_time')[:5]
             form = CommentForm()
-            context = {"post": post, "comments": comments, "form": form}
+            context = {
+                "post": post, 
+                "comments": comments, 
+                "form": form,
+                "side1": side1,
+                "side2": side2
+            }
             return render(request, "forum/discussion.html", context)
         else:
             return HttpResponseRedirect(reverse('account_login'))
@@ -56,33 +63,37 @@ class DiscussionView(View):
 
 
 class ReplyToComment(LoginRequiredMixin, View):
-	def get(self, request, *args, **kwargs):
-		form = CommentForm()
-		parent_comment = get_object_or_404(Comment, pk=kwargs['id'])
-		post = parent_comment.post
-		template = 'forum/reply_to_comment.html'
-		context = {
-			"post": post,
-			"parent_comment": parent_comment,
-			"form": form
-		}
-		return render(request, template, context)
+    def get(self, request, *args, **kwargs):
+        form = CommentForm()
+        parent_comment = get_object_or_404(Comment, pk=kwargs['id'])
+        side1 = Post.objects.filter(num_comments__gte=10)[:5]
+        side2 = Post.objects.order_by('-submission_time')[:5]
+        post = parent_comment.post
+        template = 'forum/reply_to_comment.html'
+        context = {
+            "post": post,
+            "parent_comment": parent_comment,
+            "form": form,
+            "side1": side1,
+            "side2": side2
+        }
+        return render(request, template, context)
 
-	def post(self, request, *args, **kwargs):
-		parent_comment = get_object_or_404(Comment, pk=kwargs['id'])
-		form = CommentForm(request.POST)
-		if not form.is_valid():
-			post = parent_comment.post
-			template = 'forum/reply_to_comment.html'
-			context = {
-				"post": post,
-				"parent_comment": parent_comment,
-				"form": form
-			}
-			return render(request, template, context)
-		comment = parent_comment.reply(form.cleaned_data['text'], request.user)
-		post_url = reverse('forum:discussion', args=[parent_comment.post.id, parent_comment.post_slug])
-		return HttpResponseRedirect(post_url)
+    def post(self, request, *args, **kwargs):
+        parent_comment = get_object_or_404(Comment, pk=kwargs['id'])
+        form = CommentForm(request.POST)
+        if not form.is_valid():
+            post = parent_comment.post
+            template = 'forum/reply_to_comment.html'
+            context = {
+                "post": post,
+                "parent_comment": parent_comment,
+                "form": form
+            }
+            return render(request, template, context)
+        comment = parent_comment.reply(form.cleaned_data['text'], request.user)
+        post_url = reverse('forum:discussion', args=[parent_comment.post.id])
+        return HttpResponseRedirect(post_url)
 
 
 

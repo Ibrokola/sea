@@ -13,7 +13,7 @@
     	<div class="row">
     		<div class="col-sm-8">
             {# include 'forum/statusupdate.html' #}
-            <h4 class="h4-responsive">Welcome <strong>{{ user.username }}</strong>, here are the latest posts <small><span><button class="btn btn-default btn-sm float-right">Start a discussion</button></span></small></h4> 
+            <h4 class="h4-responsive">Welcome <strong>{{ user.username }}</strong>, here are the latest posts <small><span><a href="{% url 'forum:start_discussion' %}"><button class="btn btn-default btn-sm float-right">Start a discussion</button></a></span></small></h4> 
             <hr>
             {% include 'home/latest_update.html' %}    
             </div>

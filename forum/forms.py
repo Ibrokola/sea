@@ -29,11 +29,11 @@ class StartDiscussionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(StartDiscussionForm, self).clean()
-        url = cleaned_data.get("url")
+        # url = cleaned_data.get("url")
         text = cleaned_data.get("text")
-        if not (url or text):
+        if not text:
             raise forms.ValidationError(
-            "URL and Text are both empty. Please enter at least one of them."
+            "Text field is empty. Please enter text to continue."
             )
         return cleaned_data
 

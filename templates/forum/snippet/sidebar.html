@@ -1,22 +1,24 @@
+{% load humanize %} 
 <section class="section widget-content wow fadeIn" data-wow-delay="0.3s">
     <!-- Heading -->
     <nav class="navbar navbar-dark sidebar-heading">
         <div class="flex-center">
-            <h4 class="h4-responsive white-text">Related Posts</h4>
+            <h4 class="h4-responsive white-text">Recent Posts</h4>
         </div>
     </nav>
     <!--/ Heading -->
 
     <div class="single-post">
-
         <div class="row">
             <!-- Excerpt -->
             <div class="col-12">
+                {% for item in side2 %}
                 <div class="post-data">
                     <p></p>
                 </div>
-                <h6><a>What colors fit to blonde girl?</a> <a><i class="fa fa-comments-o"></i> 45</a> <i class="fa fa-clock-o"></i> 6 hours ago</h6>
-
+                    <h6><b><a href="{{ item.get_absolute_url }}"><span class="text-black" style="text-decoration:none; color:black;">{{ item|truncatechars:32 }}</span></a></b> <span class="float-right"><i class="fa fa-clock-o"></i> {{ item.submission_time | naturaltime }}</span></h6>
+                    <hr/>
+                {% endfor %}
             </div>
             <!--/ Excerpt -->
         </div>
@@ -37,10 +39,15 @@
         <div class="row">
             <!-- Excerpt -->
             <div class="col-12">
+                {% for item in side1 %}
                 <div class="post-data">
                     <p></p>
                 </div>
-                <h6><a>What colors fit to blonde girl?</a> <a><i class="fa fa-comments-o"></i> 45</a> <i class="fa fa-clock-o"></i> 6 hours ago</h6>
+                
+                    <h6><b><a href="{{ item.get_absolute_url }}"><span class="text-black" style="text-decoration:none; color:black;">{{ item|truncatechars:32 }}</span></a></b> <span class="float-right"><i class="fa fa-clock-o"></i> {{ item.submission_time | naturaltime }}</span></h6>
+                    <!-- <i class="fa fa-comments-o"></i> {{ comment|length }} -->
+                <hr/>
+                {% endfor %}
             </div>
             <hr/>
             <!--/ Excerpt -->

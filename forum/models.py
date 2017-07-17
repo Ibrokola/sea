@@ -162,11 +162,6 @@ class PostsManager(models.Manager):
         return posts
     
     # get individual post from specific authors
-    def get_author_post(self, user=None):
-        auth_post = Post.objects.filter(author__username__iexact=user)
-        if user:
-            auth_post = Post.objects.filter(author__username__iexact=user)
-        return auth_post
     
     def _append_votes_by_user(self, posts, user):
         # Returns a dictionary
@@ -192,8 +187,7 @@ class PostsManager(models.Manager):
             elif DOWNVOTE in votes_by_post[post.id]:
                 post.is_downvoted = True
             elif FLAG in votes_by_post[post.id]:
-                post.is_flagged = True
-            
+                post.is_flagged = True    
         return posts
 
     def vote_type_to_string(self, vote_type):
@@ -214,7 +208,7 @@ class Post(Votable):
     objects = PostsManager()
     title = models.CharField(max_length=120)
     slug = models.SlugField(null=True, blank=True)
-    url = models.URLField(blank=True)
+    # url = models.URLField(blank=True)
     text = models.TextField(blank=True, max_length=8192)
     submission_time = models.DateTimeField(auto_now_add=True)
     num_comments = models.IntegerField(default=0)

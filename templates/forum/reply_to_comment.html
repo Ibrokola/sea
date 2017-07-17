@@ -1,8 +1,12 @@
-{% extends 'base.html' %} {% load static %} {% load crispy_forms_tags %} {% load markdown %} {% block title %}Reply to Comment{% endblock %} {% block content %}
+{% extends 'base.html' %} 
+{% load static %} 
+{% load markdown %}
+{% load crispy_forms_tags %}  
+{% block title %}Reply to Comment{% endblock %} {% block content %}
 
 
 <div class="container-fluid" style="padding-top: 100px;"></div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-sm-8">
             <div class="col-sm-12">
@@ -13,27 +17,31 @@
                     </p>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    <br>
-                    <form method="post">
-                        {% csrf_token %} {{ form|crispy }}
-                        <button type="submit" class="btn btn-default btn-sm">Submit Comment</button>
-                    </form>
-                    <br>
-                    <strong>Preview</strong>
-                    <div class="comment-text">
-                        <p id="preview"></p>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br>
+                        <form method="post">
+                            {% csrf_token %} {{ form|crispy }}
+                            <button type="submit" class="btn btn-default btn-sm">Submit Comment</button>
+                        </form>
+                        <br>
+                        <strong>Preview</strong>
+                        <div class="comment-text">
+                            <p id="preview"></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
         <div class="col-sm-4">
-            {% include "forum/snippet/sidebar.html" with obj_type=posts obj=post %}
+            {% include "forum/snippet/sidebar.html" with side1=side1 side2=side2 %}
         </div>
     </div>
 </div>
-{% endblock %} {% block before-body-close %}
+{% endblock %} 
+{% block before-body-close %}
 <script>
     $("#id_text").focus();
     $('#id_text').bind('input propertychange', function() {
