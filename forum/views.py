@@ -98,20 +98,32 @@ class ReplyToComment(LoginRequiredMixin, View):
 
 
 class EditComment(LoginRequiredMixin, View):
-	def get(self, request, *args, **kwargs):
-		comment = get_object_or_404(Comment, pk=kwargs['id'])
-		form = CommentForm(instance=comment)
-		template = 'forum/edit_comment.html'
-		context = {"form": form}
-		return render(request, template, context)
+    def get(self, request, *args, **kwargs):
+        comment = get_object_or_404(Comment, pk=kwargs['id'])
+        form = CommentForm(instance=comment)
+        side1 = Post.objects.filter(num_comments__gte=10)[:5]
+        side2 = Post.objects.order_by('-submission_time')[:5]
+        template = 'forum/edit_comment.html'
+        context = {
+            "form": form,
+            "side1": side1,
+            "side2": side2
+        }
+        return render(request, template, context)
 
 
 class StartDiscussionView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = request.user
         form = StartDiscussionForm(initial={"author": user})
+        side1 = Post.objects.filter(num_comments__gte=10)[:5]
+        side2 = Post.objects.order_by('-submission_time')[:5]
         template = 'forum/start.html'
-        context = {"form": form}
+        context = {
+            "form": form,
+            "side1": side1,
+            "side2": side2
+        }
         return render(request, template, context)
 
     def post(self, request, *args, **kwargs):
