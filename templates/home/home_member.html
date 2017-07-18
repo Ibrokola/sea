@@ -25,7 +25,7 @@
                     {% for item in profile %}
                         <div class="">
                             {% if item.image %}
-                                <img src="{{ item.image.url }}" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">
+                                <img src="{{ item.image.url }}" class="img-fluid rounded-circle" width="300" height="300" alt="profie.picture">
                             {% else %}
                                 <img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
                             {% endif %}                        
@@ -37,19 +37,19 @@
                             <h4 class="card-title"><strong>username: {{ item.user.username }}</strong></h4>
                             <!--Description-->
                             <hr>
-                            <p>Rank: {{ item.user.rank }}</p>
+                            <p>Rank: {{ item.rank }}</p>
                             <hr>
                             <p>Points: {{ profile.user.rank }}</p>
                             <hr>
                             <p>Email: {{ item.user.email }}</p>
                             <hr>
                             <!--Dribbble-->
-                            <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a>
+                            <!-- <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a> -->
                             <!--Instagram-->
-                            <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a>
+                            <!-- <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a> -->
                             <!--Pinterest-->
-                            <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a>
-                            <p>click <button class="btn btn-default btn-sm">Here</button> to update profile info</p>
+                            <!-- <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a> -->
+                            <p>click <a href="{% url 'users:profile_user' %}"><button class="btn btn-default btn-sm">Here</button></a> to update profile info</p>
                         </div>
                     {% endfor %}
                     <!--/Card-->

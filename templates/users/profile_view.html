@@ -26,7 +26,7 @@
 			        <!--Avatar-->
 			         <div class="">
 			        {% if profile.image %}
-			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">
+			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail" width="350" height="300" alt="profie.picture">
 			        {% else %}
 			        	<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
 			        {% endif %}
@@ -36,22 +36,26 @@
 
 
 			            <!--Name-->
-			            <h4 class="card-title"><strong>Name: {{ profile.user.username }}</strong></h4>
+			            <h4 class="card-title"><strong>Username: {{ profile.user.username }}</strong></h4>
 						<!--Description-->
 						<hr>
-						<p>Rank: {{ profile.user.rank }}</p>
+						<p>Rank: {{ profile.rank }}</p>
 						<hr>
 						<p>Points: {{ profile.user.rank }}</p>
+						<!-- <hr> -->
+						<!-- <p>Email: {{  profile.user.email }}</p> -->
 						<hr>
-						<p>Email: {{  profile.user.email }}</p>
-						<hr>
+						<br>
+						{% if profile.facebook_link or profile.twitter_handle or profile.website_link %}
+						<h4>Connect with {{ profile.user }}</h4>
+							{% if profile.facebook_link %}
+							<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
+							{% endif %}
+							{% if profile.twitter_handle %}
+							<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
+							{% endif %}
+						{% endif %}
 			            <!--Dribbble-->
-			            <!-- <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a> -->
-			            <!--Instagram-->
-			            <!-- <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a> -->
-			            <!--Pinterest-->
-			            <!-- <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a> -->
-			        <!-- </div> -->
 
 			    <!-- </div> -->
 			    <!--/Card-->
@@ -63,6 +67,17 @@
 			</div> -->
 		</div>
 		<div class="col-sm-6 col-md-8">
+			
+            <h3>About {{ profile.user }}</h3>
+            <hr>
+            {% if profile.bio %}
+                <p>{{ profile.bio }}</p>
+            {% else %}
+                <p>Bio update pending</p>
+            {% endif %}
+			<br>
+			<br>
+
 			<h3 class="h3-responsive">Discussions started by {{ profile.user.username }}</h3>
 			<hr>
 			<br>
@@ -81,7 +96,7 @@
 					</div>
 					<div class="card-block">
 						<a href="{{ item.get_absolute_url }}">
-							<h4 class="card-title">{{ item }}</h4>
+							<h4 class="card-title" style="color: black;">{{ item }}</h4>
 						</a>
 						<!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
 						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
@@ -94,19 +109,6 @@
 				<p>No post yet</p>
 			{% endif %}
 			</div>
-			<br>
-			<br>
-            <h3>About {{ profile.user }}</h3>
-            <hr>
-            {% if profile.bio %}
-                <p>{{ profile.bio }}</p>
-            {% else %}
-                <p>Bio update pending</p>
-            {% endif %}
-            <hr>
-            <h4>Connect with {{ profile.user }}</h4>
-			<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
-			<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
 		</div>
 		<hr>
 		<br>

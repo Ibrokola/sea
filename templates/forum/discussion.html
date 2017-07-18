@@ -46,7 +46,7 @@
                         <div class="">
                             <div class="comment-header">
                                 <span class="comment-author">
-            						by <a href="">{{ comment.author.username }}</a>
+            						by <a href="{% url 'users:profile_view' comment.author.username %}">{{ comment.author.username }}</a>
             					</span>
                                 <span> . </span>
                                 <span>{{comment.score}} points</span>
