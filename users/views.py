@@ -50,7 +50,6 @@ class ProfileView(LoginRequiredMixin, View):
 
 class ProfileEditView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        print(kwargs)
         profile, created = Profile.objects.get_or_create(user=request.user)
         form = ProfileEditForm()
         # profile, created = Profile.objects.get_or_create(user)
@@ -62,10 +61,10 @@ class ProfileEditView(LoginRequiredMixin, View):
         return render(request, template, context)
 
     def post(self, request, *args, **kwargs):
-        print(kwargs)
-        profile = get_object_or_404(Profile, pk='id')
+        # profile = get_object_or_404(Profile, pk='id')
+        profile, created = Profile.objects.get_or_create(user=request.user)
         form = ProfileEditForm(request.POST or None, request.FILES or None, instance=profile)
-        template = 'profiles/profile_edit.html'
+        template = 'users/profile_edit.html'
         context = {"form": form}
         if form.is_valid():
             instance = form.save(commit=False)
