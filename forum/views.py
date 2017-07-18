@@ -110,6 +110,18 @@ class EditComment(LoginRequiredMixin, View):
             "side2": side2
         }
         return render(request, template, context)
+    
+    def post(self, request, *args, **kwargs):
+        comment = get_object_or_404(Comment, pk=kwargs['id'])
+        form = CommentForm(request.POST, instance=comment)
+
+        if not form.is_valid():
+            context = {"form": form}
+            return render(request, "edit-comment.html", context=context)
+        else:
+            form.save()
+        post_url = reverse('forum:discussion', args=[comment.post.id])
+        return HttpResponseRedirect(post_url)
 
 
 class StartDiscussionView(LoginRequiredMixin, View):

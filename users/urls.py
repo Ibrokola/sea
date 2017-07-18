@@ -1,8 +1,9 @@
 from django.conf.urls import url
-from .views import (ProfileUserView,
-					ProfileView,
-					ProfileEditView,
-				)
+from .views import (
+                    ProfileUserView,
+                    ProfileView,
+                    ProfileEditView,
+               )
 
 
 
