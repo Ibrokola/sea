@@ -28,7 +28,7 @@
 			        {% if profile.image %}
 			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail" width="350" height="300" alt="profie.picture">
 			        {% else %}
-			        	<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
+			        	<img src="http://www.sbsc.in/images/dummy-profile-pic.png" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
 			        {% endif %}
 			        </div>
 
@@ -49,10 +49,10 @@
 						{% if profile.facebook_link or profile.twitter_handle or profile.website_link %}
 						<h4>Connect with {{ profile.user }}</h4>
 							{% if profile.facebook_link %}
-							<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
+							<span><a class="btn-floating btn-small btn-fb" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
 							{% endif %}
 							{% if profile.twitter_handle %}
-							<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
+							<span><a class="btn-floating btn-small btn-tw" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
 							{% endif %}
 						{% endif %}
 			            <!--Dribbble-->

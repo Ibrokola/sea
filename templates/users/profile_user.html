@@ -24,11 +24,11 @@
 			        </div> -->
 
 			        <!--Avatar-->
-			         <div class="">
+			         <div class="container">
 			        {% if profile.image %}
-			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail" width="350" height="300" alt="profie.picture">
+			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail text-center" width="300" height="300" alt="profie.picture">
 			        {% else %}
-			        	<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="350" height="300" alt="profie.picture">    
+			        	<img src="http://www.sbsc.in/images/dummy-profile-pic.png" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
 			        {% endif %}
 			        </div>
 
@@ -74,7 +74,8 @@
 			</div> -->
 		</div>
 		<div class="col-sm-6 col-md-8">
-            <h3>About {{ profile.user }}</h3>
+			<!-- <h3>About {{ profile.user }}</h3> -->
+			<h3>About you</h3>
             <hr>
             {% if profile.bio %}
                 <p>{{ profile.bio }}</p>
@@ -84,7 +85,8 @@
 			<br>
 			<br>
             
-			<h3 class="h3-responsive">Discussions started by {{ profile.user.username }}</h3>
+			<!-- <h3 class="h3-responsive">Discussions started by {{ profile.user.username }}</h3> -->
+			<h3 class="h3-responsive">Discussions you started</h3>
 			<hr>
 			<br>
 			<div class="col-sm-12">
