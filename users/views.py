@@ -23,13 +23,12 @@ User = get_user_model()
 class ProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=request.user)
-        # post = Post.objects.get_post_started_by_me(post_id, user=user)
         post = Post.objects.filter(author__username__iexact=user)
         profile, created = Profile.objects.get_or_create(user=user)
-        template = 'profiles/profile_user.html'
+        template = 'users/profile_user.html'
         context = {
             'profile': profile,
-            # 'post': post,
+            'post': post,
             }
         return render(request, template, context)
 

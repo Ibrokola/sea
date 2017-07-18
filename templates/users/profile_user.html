@@ -1,74 +1,122 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load humanize %}
 
-{% block title %}Profile | {{ super }} {% endblock %}
+{% block title %}{{ profile.user.username }} | {{ block.super }} {% endblock %}
 
 {% block pagecss %}
+<link href="{% static 'css/mdb.css' %}" rel="stylesheet">
 {% endblock %}
 
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-fluid" style="padding-top: 100px;"></div>
+<div class="container">
 	<div class="row">
 		<div class="col-sm-6 col-md-4">
 			<section class="wow fadeIn">        
 			    <!--Card-->
-			    <div class="card author-card">
+			    <!-- <div class="card author-card"> -->
 			        <!--Background image-->
 
-			        <div class="card-up">
+			        <!-- <div class="card-up">
 			            <img src="https://mdbootstrap.com/img/Photos/Horizontal/Nature/8-col/img%20%2831%29.jpg" class="img-fluid">
-			        </div>
+			        </div> -->
 
 			        <!--Avatar-->
-			        <div class="avatar">
-			        {% if image %}
-			            <img src="{{ profile.image.url }}" class="img-fluid img-author" width="140" height="140" alt="profie.picture">
+			         <div class="">
+			        {% if profile.image %}
+			            <img src="{{ profile.image.url }}" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">
 			        {% else %}
-			        	<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-author" width="140" height="140" alt="profie.picture">    
+			        	<img src="https://mdbootstrap.com/img/Photos/Avatars/img%20%282%29.jpg" class="img-fluid img-thumbnail" width="300" height="300" alt="profie.picture">    
 			        {% endif %}
 			        </div>
 
 			        <div class="card-block">
+
+
 			            <!--Name-->
-			            <h4 class="card-title"><strong>Name: {{ user.username }}</strong></h4>
-			            <!--Description-->
-			            <p>Rank: {{ user.rank }}</p>
-			            <p>Email: {{ user.email }}</p>
+			            <h4 class="card-title"><strong>Name: {{ profile.user.username }}</strong></h4>
+						<!--Description-->
+						<hr>
+						<p>Rank: {{ profile.user.rank }}</p>
+						<hr>
+						<p>Points: {{ profile.user.rank }}</p>
+						<hr>
+						<p>Email: {{  profile.user.email }}</p>
+						<hr>
+						<br>
+						<h4>Connect with {{ profile.user }}</h4>
+						<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
+						<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
 			            <!--Dribbble-->
 			            <!-- <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a> -->
 			            <!--Instagram-->
 			            <!-- <a class="icons-sm ins-ic"><i class="fa fa-instagram"> </i></a> -->
 			            <!--Pinterest-->
 			            <!-- <a class="icons-sm pin-ic"><i class="fa fa-pinterest"> </i></a> -->
-			        </div>
+					<!-- </div> -->
+						 <hr>
+						<div class="text-center">
+							<h5>Edit profile details</h5><a href="{% url 'users:profile_edit' %}"><button class="btn btn-default btn-sm" value="update" type="submit">Edit</button></a>
+						</div> 
 
-			    </div>
+			    <!-- </div> -->
 			    <!--/Card-->
 			</section>
 			<br>
-			<hr>
+			<!-- <hr>
 			<div class="text-center">
 				<h5>update profile</h5><button class="btn btn-default" value="update" type="submit">update</button>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-sm-6 col-md-8">
-			<h3>Discussions started by me</h3>
+            <h3>About {{ profile.user }}</h3>
+            <hr>
+            {% if profile.bio %}
+                <p>{{ profile.bio }}</p>
+            {% else %}
+                <p>Bio update pending</p>
+			{% endif %}
+			<br>
+			<br>
+            
+			<h3 class="h3-responsive">Discussions started by {{ profile.user.username }}</h3>
 			<hr>
 			<br>
-			<div class="col-sm-6">
-				<h4>{{ post.author.id.title }}</h4>
+			<div class="col-sm-12">
+			{% if post %}
+				
+				<!-- <div class="card">
+					<a href="{{ item.get_absolute_url }}">
+						<h5>{{ item }}</h5>
+					</a>
+				</div> -->
+				{% for item in post %}
+				<div class="card">
+					<div class="card-header">
+						<i class="fa fa-comments-o"></i> {{  item.num_comments }}  <span class="float-right"><i class="fa fa-clock-o"></i> {{  item.submission_time | naturaltime }}</span>
+					</div>
+					<div class="card-block">
+						<a href="{{ item.get_absolute_url }}">
+							<h4 class="card-title">{{ item }}</h4>
+						</a>
+						<!-- <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
+						<!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+					</div>
+				</div>
+				<br>
+				{% endfor %}
+				
+			{% else %}
+				<p>No post yet</p>
+			{% endif %}
 			</div>
-			<h3>About {{ profile.user }}</h3>
 		</div>
 		<hr>
 		<br>
-		<p>{{ profile.bio }}</p>
 		<hr>
 		<br>
-			<h4>Connect with {{ profile.user }}</h4>
-			<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span> |
-			<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
 	</div>
 </div>
 {% endblock %}
