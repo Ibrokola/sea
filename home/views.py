@@ -17,7 +17,7 @@ def homepage(request):
         return render(request, template, context)
     template = 'home/home.html'
     home1 = HomeCarousel.objects.all()
-    home2 = Marketing.objects.all()
+    home2 = Marketing.objects.all().order_by('?')
     context = {
             'home1': home1,
             'home2': home2

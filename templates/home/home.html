@@ -12,19 +12,18 @@
     </div>
 
     <section class="container marketing">
-    {{ home2 }}
     {% if home2 %}
     	<div class="row text-center">
             {% for item in home2 %}
-    		<div class="col-lg-3 col-md-6 mb-r wow fadeInLeft" data-wow-delay="0.2s">
+    		<div class="col-lg-4 col-md-6 mb-r wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="avatar">
                 {% if item.image %}
-                    <img src="{{ item.image.url }}" class="rounded-circle" width="140" height="140">
+                    <img src="{{ item.image.url }}" class="rounded-circle" width="200" height="200">
                 {% else %}
                     <img src="https://mdbootstrap.com/images/avatars/img%20(1).jpg" class="rounded-circle" width="140" height="140">
                 {% endif %}
                 </div>
-                <h4>{{ item.title }}</h4>
+                <h4 class="h4-responsive"><b>{{ item.title }}</b></h4>
                 
                 <p>{{ item.reason }}</p>
             </div>
