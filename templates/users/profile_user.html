@@ -48,9 +48,12 @@
 						<br>
 						{% if profile.facebook_link or profile.twitter_handle or profile.website_link %}
 						<h4>Connect with {{ profile.user }}</h4>
-						<span><a class="icons-sm fa-ic" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
-						
-						<span><a class="icons-sm tw-ic" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
+							{% if profile.facebook_link %}
+							<span><a class="btn-floating btn-small btn-fb" href="{{ profile.facebook_link }}"><i class="fa fa-facebook"> </i></a></span>
+							{% endif %}
+							{% if profile.twitter_handle %}
+							<span><a class="btn-floating btn-small btn-tw" href="{{ profile.twitter_handle }}"><i class="fa fa-twitter"> </i></a></span>
+							{% endif %}
 						{% endif %}
 						<!--Dribbble-->
 			            <!-- <a class="icons-sm drib-ic"><i class="fa fa-dribbble"> </i></a> -->
