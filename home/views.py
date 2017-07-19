@@ -1,10 +1,11 @@
 from django.shortcuts import render
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forum.models import Post
 from users.models import UserProfile as Profile
 from .models import HomeCarousel, Marketing
 
-def homepage(request):	
+def homepage(request):
+    paginate_by = 6	
     if request.user.is_authenticated():
         user = request.user
         posts = Post.objects.recent_posts_with_my_votes(user)
