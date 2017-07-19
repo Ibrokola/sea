@@ -4,23 +4,33 @@
 
 {% block content %}
 <div class="container-fluid" style="padding-top: 80px;">
-    {% include 'home/carousel.html' %}
+    {% include 'home/carousel.html' with home1=home1 %}
 </div>
 <div class="container">
     <div class="divider-new">
         <h2 class="h2-responsive">Why join SEA?</h2>
     </div>
+
     <section class="container marketing">
+    {{ home2 }}
+    {% if home2 %}
     	<div class="row text-center">
+            {% for item in home2 %}
     		<div class="col-lg-3 col-md-6 mb-r wow fadeInLeft" data-wow-delay="0.2s">
                 <div class="avatar">
+                {% if item.image %}
+                    <img src="{{ item.image.url }}" class="rounded-circle" width="140" height="140">
+                {% else %}
                     <img src="https://mdbootstrap.com/images/avatars/img%20(1).jpg" class="rounded-circle" width="140" height="140">
+                {% endif %}
                 </div>
-                <h4>Anna Deynah</h4>
-                <h5>Web Designer</h5>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod eos id officiis hic tenetur quae quaerat ad velit ab.</p>
+                <h4>{{ item.title }}</h4>
+                
+                <p>{{ item.reason }}</p>
             </div>
-    	</div>
+            {% endfor %}
+        </div>
+    {% endif %}
     </section>
 </div>
 

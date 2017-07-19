@@ -16,5 +16,10 @@ def homepage(request):
             }
         return render(request, template, context)
     template = 'home/home.html'
-    context = {}
+    home1 = HomeCarousel.objects.all()
+    home2 = Marketing.objects.all()
+    context = {
+            'home1': home1,
+            'home2': home2
+    }
     return render(request, template, context)
