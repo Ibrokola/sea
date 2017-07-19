@@ -1,8 +1,19 @@
+{% load static %}
 <div class="container-fluid">
 	<hr>
-	<div class="footer-copyright text-center">
+	<div class="footer-copyright" style="padding-bottom:40px;">
 	    <div class="container-fluid">
-	        © 2017 Copyright: <a href=""> Sustainable Energy for All</a> | Created by: ibrokola
-	    </div>
+			<div class="row">
+				<div class="col-sm-4">
+	    		    <span class="justity-content-start">© 2017 Copyright: <a href=""> Sustainable Energy for All</a> | Created by: ibrokola</span>  
+				</div>
+				<div class="col-sm-4">
+				    <span class="justify-content-center">powered by <img src="{% static 'img/logo/logo4.png' %}" alt="" width="120" height="40"></span>
+				</div>
+				<div class="col-sm-4">
+				    <span class="justify-content-end"><a href="">Privacy</a> | <a href="">Policy</a></span>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
