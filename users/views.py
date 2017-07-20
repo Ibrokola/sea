@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 from django.http import HttpResponse, HttpResponseRedirect
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from django.core.urlresolvers import reverse
@@ -22,7 +23,16 @@ User = get_user_model()
 class ProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=request.user)
-        post = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+        post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+        paginator = Paginator(post_list, 10)
+        page = request.GET.get('page')
+        
+        try:
+            post = paginator.page(page)
+        except PageNotAnInteger:
+             post = paginator.page(1)
+        except EmptyPage:
+             post = paginator.page(paginator.num_pages)
         profile, created = Profile.objects.get_or_create(user=user)
         template = 'users/profile_user.html'
         context = {
@@ -35,8 +45,16 @@ class ProfileUserView(LoginRequiredMixin, View):
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
-        post = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
-        print(post)
+        post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+        paginator = Paginator(post_list, 10)
+        page = request.GET.get('page')
+        
+        try:
+            post = paginator.page(page)
+        except PageNotAnInteger:
+             post = paginator.page(1)
+        except EmptyPage:
+             post = paginator.page(paginator.num_pages)
         profile, created = Profile.objects.get_or_create(user=user)
         template = 'users/profile_view.html'
         context = {

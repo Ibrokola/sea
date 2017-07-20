@@ -8,16 +8,16 @@
 {% block content %}
 
 <div class="container-fluid" style="padding-top: 100px;"></div>
-<div class="container -fluid">
+<div class="container">
     <section class="member-page">
     	<div class="row">
     		<div class="col-sm-8">
             {# include 'forum/statusupdate.html' #}
             <h4 class="h4-responsive">Welcome <strong>{{ user.username }}</strong>, here are the latest posts <small><span><a href="{% url 'forum:start_discussion' %}"><button class="btn btn-default btn-sm float-right">Start a discussion</button></a></span></small></h4> 
             <hr>
-            {% include 'home/latest_update.html' %}    
+            {% include 'home/latest_update.html' with posts=posts %}
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 hidden-sm-down">
                 {# include 'home/badge.html' #}
                 <section class="wow fadeIn">        
                     <!--Card-->
@@ -56,6 +56,43 @@
                 </section>
             </div>            
             </div>
+            	<nav>
+				{% if posts.has_other_pages %}
+					<ul class="pagination justify-content-center pg-darkgrey">
+						{% if posts.has_previous %}
+						<li class="page-item">
+							<a href="?page={{ posts.previous_page_number }}" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+								<span class="sr-only">Previous</span>
+							</a>
+						</li>
+						{% else %}
+						<li class="disabled"><span>&laquo;</span></li>
+						{% endif %}
+						{% for i in posts.paginator.page_range %}
+						{% if posts.number == i %}
+							<li class="page-item active">
+								<span class="page-link" style="margin-right:3px;"> {{ i }} <span class="sr-only">(current)</span></span>
+							</li>
+						{% else %}
+							<li class="page-item">
+								<li><a href="?page={{ i }}">{{ i }}</a></li>
+							</li>
+						{% endif %}
+						{% endfor %}
+						{% if posts.has_next %}
+						<li class="page-item">
+							<a href="?page={{ posts.next_page_number }}" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+								<span class="sr-only">Next</span>
+							</a>
+						</li>
+						{% else %}
+						<li class="disabled"><span>&raquo;</span></li>
+						{% endif %}
+					</ul>
+				{% endif %}
+			</nav>
         </div>
     </section>
 </div>

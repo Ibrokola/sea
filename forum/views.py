@@ -30,16 +30,7 @@ class DiscussionView(View):
     	# logic rendered if user requesting access is authenticated
         if request.user.is_authenticated():
             post = Post.objects.get_post_with_my_votes(post_id, request.user)
-            comments_list = Comment.objects.best_ones_first(post_id, request.user.id)
-            page = request.GET.get('page', 1)
-            paginator = Paginator(comments_list, 41)
-            try:
-                comments = paginator.page(1)
-            except PageNotAnInteger:
-                comments = paginator.page(1)
-            except EmptyPage:
-                comments = paginator.page(paginator.num_pages)
-            print(comments)
+            comments = Comment.objects.best_ones_first(post_id, request.user.id)
             side1 = Post.objects.filter(num_comments__gte=10)[:5]
             side2 = Post.objects.order_by('-submission_time')[:5]
             form = CommentForm()

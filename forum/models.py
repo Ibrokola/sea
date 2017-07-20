@@ -12,9 +12,8 @@ from django.core.urlresolvers import reverse
 from .utils import unique_slug_generator
 from django.db import models
 from django.db.models import F
-# from django.urls import reverse
 
-# from .utils import notify_users
+from .utils import notify_users
 
 SERVER_URL = "http://127.0.0.1:8000/"
 
@@ -236,13 +235,13 @@ class Post(Votable):
         self.num_comments = F('num_comments') + 1
         self.save(update_fields=["num_comments"])
         
-        # if(self.author.username != author.username):
-        #     notify_users(
-        #             [self.author],
-        #             "%s commented on your post" % author.username,
-        #             comment.text,
-        #             reverse("reply_to_comment", args=[comment.id])
-        #         )
+        if(self.author.username != author.username):
+            notify_users(
+                    [self.author],
+                    "%s commented on your post" % author.username,
+                    comment.text,
+                    reverse("reply_to_comment", args=[comment.id])
+                )
 
         return comment
 
@@ -316,6 +315,7 @@ class Comment(Votable):
         unique_together = [
             ["post", "wbs"],
         ]
+        ordering = ['-submission_time']
     objects = CommentsManager()
 
     post = models.ForeignKey(Post, related_name="comments")
@@ -349,21 +349,21 @@ class Comment(Votable):
         self.num_reply = F('num_reply') + 1
         self.save(update_fields=["num_reply"])
 
-        # if(comment.post.author.username != author.username):
-        #     notify_users(
-        #             [comment.post.author],
-        #             "%s commented on your post" % comment.author.username,
-        #             comment.text,
-        #             reverse("reply_to_comment", args=[comment.id])
-        #         )
+        if(comment.post.author.username != author.username):
+            notify_users(
+                    [comment.post.author],
+                    "%s commented on your post" % comment.author.username,
+                    comment.text,
+                    reverse("reply_to_comment", args=[comment.id])
+                )
 
-        # if(comment.parent_comment.author.username != author.username):
-        #     notify_users(
-        #             [comment.parent_comment.author],
-        #             "%s replied to your comment" % comment.author.username,
-        #             comment.text,
-        #             reverse("reply_to_comment", args=[comment.id])
-        #         )
+        if(comment.parent_comment.author.username != author.username):
+            notify_users(
+                    [comment.parent_comment.author],
+                    "%s replied to your comment" % comment.author.username,
+                    comment.text,
+                    reverse("reply_to_comment", args=[comment.id])
+                )
 
         return comment
 
