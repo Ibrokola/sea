@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.humanize',
 
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -62,7 +63,7 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = None
 SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
-# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 
 # AUTH_USER_MODEL = 'forum.User'
 
@@ -106,6 +107,10 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation

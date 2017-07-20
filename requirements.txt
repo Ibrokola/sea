@@ -4,6 +4,8 @@ cffi==1.10.0
 chardet==3.0.4
 cryptography==1.9
 defusedxml==0.5.0
+dj-database-url==0.4.2
+dj-email-url==0.0.10
 Django==1.11.3
 django-allauth==0.32.0
 django-crispy-forms==1.6.1
