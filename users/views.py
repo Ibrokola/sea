@@ -24,7 +24,7 @@ from .forms import ProfileEditForm
 
 
 class ProfileUserView(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         user = get_object_or_404(User, username=request.user)
         post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
         paginator = Paginator(post_list, 10)
@@ -46,7 +46,7 @@ class ProfileUserView(View):
 
 
 class ProfileView(View):
-    def get(self, request, username, *args, **kwargs):
+    def get(self, request, username):
         user = get_object_or_404(User, username=username)
         post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
         paginator = Paginator(post_list, 10)
@@ -68,7 +68,7 @@ class ProfileView(View):
 
 
 class ProfileEditView(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         profile, created = Profile.objects.get_or_create(user=request.user)
         form = ProfileEditForm()
         # profile, created = Profile.objects.get_or_create(user)
