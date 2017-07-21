@@ -10,22 +10,24 @@ from decouple import config
 
 SERVER_KEY = config("SERVER_KEY")
 
-class Subscription(models.Model):    
+class Subscription(models.Model):
     class Meta:
         db_table = "user_push_notification_subscriptions"
         unique_together = [
             ["user", "endpoint"],
         ]
-    user = models.ForeignKey(User, related_name="subscription", on_delete=models.PROTECT)
+    
+    # This is a one-to-many relationship because
+    # a user can have multiple devices
+    user = models.ForeignKey(User, 
+        related_name="subscriptions", on_delete=models.PROTECT)
+    
     browser = models.CharField(max_length=100)
     endpoint = models.URLField(max_length=350)
     auth = models.CharField(max_length=100)
     p256dh = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.user.username
-
-    def send_notitication(self, title, options, ttl=86400):
+    def send_notification(self, title, options, ttl=86400):
         subscription = {
             "endpoint": self.endpoint,
             "keys": {
@@ -35,6 +37,7 @@ class Subscription(models.Model):
         }
         payload = {
             "title": title,
-            "option": options or {}
+            "options": options or {}
         }
-        WebPusher(subscription).send(json.dumps(payload), {}, ttl, SERVER_KEY)
+        WebPusher(subscription).\
+            send(json.dumps(payload), {}, ttl, SERVER_KEY)

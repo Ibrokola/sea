@@ -15,7 +15,6 @@ from django.db.models import F
 
 from pushnote.models import Subscription
 
-from .utils import notify_users
 
 SERVER_URL = "https://sustenergy.herokuapp.com/"
 
@@ -247,7 +246,7 @@ class Post(Votable):
                     [self.author],
                     "%s commented on your post" % author.username,
                     comment.text,
-                    reverse("reply_to_comment", args=[comment.id])
+                    reverse("forum:reply_to_comment", args=[comment.id])
                 )
 
         return comment

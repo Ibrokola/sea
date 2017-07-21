@@ -23,7 +23,7 @@ urlpatterns = [
     url(r'^forum/', include('forum.urls', namespace='forum')),
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^pushnot/', include('pushnote.urls')),
+    url(r'^pushnote/', include('pushnote.urls')),
     # url(r'^', include('django.contrib.auth.urls')),
 
     url(r'^api/posts/(?P<post_id>\d+)/upvote$', upvote_post, name="upvote_post"),
