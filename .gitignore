@@ -1,3 +1,2 @@
 .env
 sust/settings/local.py
-db.sqlite3

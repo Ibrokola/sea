@@ -222,10 +222,6 @@ class Post(Votable):
     # def get_absolute_url(self):
     #     return "/discuss/%i/" % self.id
 
-    # def get_absolute_url(self):
-	# 	return reverse('video_detail', kwargs={"vid_slug": self.slug, "cat_slug": self.category.slug})
-
-
     def get_absolute_url(self):
         # return reverse('forum:discussion', kwargs={"post_id": self.pk, "post_slug": self.slug})
         return reverse('forum:discussion', kwargs={"post_id": self.pk})
