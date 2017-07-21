@@ -27,7 +27,7 @@ User = get_user_model()
 class ProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         # user = get_object_or_404(User, username=request.user)
-        user = request.user.id
+        user = request.user
         post = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
         # paginator = Paginator(post_list, 10)
         # page = request.GET.get('page')
