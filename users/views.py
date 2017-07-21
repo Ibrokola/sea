@@ -1,5 +1,6 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.http import HttpResponseRedirect
 
@@ -13,29 +14,29 @@ from django.views.generic import View
 
 from forum.models import Post
 
-from .models import UserProfile as Profile, MyUser as User
+from .models import UserProfile as Profile
 
 
 
 from .forms import ProfileEditForm
 
 
-# User = get_user_model()
+User = get_user_model()
 
 
 class ProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=request.user)
-        post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
-        paginator = Paginator(post_list, 10)
-        page = request.GET.get('page')
+        post = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+        # paginator = Paginator(post_list, 10)
+        # page = request.GET.get('page')
         
-        try:
-            post = paginator.page(page)
-        except PageNotAnInteger:
-             post = paginator.page(1)
-        except EmptyPage:
-             post = paginator.page(paginator.num_pages)
+        # try:
+        #     post = paginator.page(page)
+        # except PageNotAnInteger:
+        #      post = paginator.page(1)
+        # except EmptyPage:
+        #      post = paginator.page(paginator.num_pages)
         profile = Profile.objects.get(user=user)
         print(profile)
         template = 'users/profile_user.html'
