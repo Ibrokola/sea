@@ -23,16 +23,16 @@ ALLOWED_HOSTS = ['sustenergy.herokuapp.com']
 
 EMAIL_HOST = config('EMAIL_HOST')
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') 
+EMAIL_PORT = 587  #config('EMAIL_PORT')
+EMAIL_USE_TLS = True     #config('EMAIL_USE_TLS')
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
-ADMINS = (
-    ('Ibraheem', 'ibrokolawole@email.com'),
-)
-MANAGERS = ADMINS
+# ADMINS = (
+#     ('Ibraheem', 'ibrokolawole@email.com'),
+# )
+# MANAGERS = ADMINS
 
 
 # Application definition
@@ -66,8 +66,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 
-CRISPY_TEMPLATE_PACK = "Bootstrap4"
-
 AUTH_USER_MODEL = 'users.MyUser'
 
 
@@ -86,6 +84,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = None
 SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_REDIRECT_URL = '/'
+
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # AUTH_USER_MODEL = 'forum.User'
 

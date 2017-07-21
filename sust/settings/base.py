@@ -26,10 +26,10 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS')
 
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 
-ADMINS = (
-    ('Ibraheem', 'ibrokolawole@email.com'),
-)
-MANAGERS = ADMINS
+# ADMINS = (
+#     ('Ibraheem', 'ibrokolawole@email.com'),
+# )
+# MANAGERS = ADMINS
 
 
 # Application definition
@@ -61,8 +61,6 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 
-CRISPY_TEMPLATE_PACK = "bootstrap4"
-
 AUTH_USER_MODEL = 'users.MyUser'
 
 AUTHENTICATION_BACKENDS = (
@@ -80,6 +78,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = None
 SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # AUTH_USER_MODEL = 'forum.User'
 

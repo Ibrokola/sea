@@ -11,13 +11,14 @@ from django.views import View
 from django.core.urlresolvers import reverse
 
 
-from .models import UserProfile as Profile
-
-from .forms import ProfileEditForm
+from .models import UserProfile as Profile, MyUser as User
 
 from forum.models import Post
 
-User = get_user_model()
+from .forms import ProfileEditForm
+
+
+# User = get_user_model()
 
 
 class ProfileUserView(LoginRequiredMixin, View):
