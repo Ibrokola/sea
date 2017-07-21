@@ -84,9 +84,6 @@ class MyUser(AbstractBaseUser):
         # The user is identified by their email address
         return self.first_name
 
-    def __str__(self):              # __unicode__ on Python 2
-        return self.username
-
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
@@ -103,6 +100,9 @@ class MyUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
 
+    def __str__(self):              # __unicode__ on Python 2
+        return self.username
+     
     class Meta:
         db_table = "users"
 
@@ -138,9 +138,9 @@ class UserProfile(models.Model):
 
 
     def __str__(self):
-        return self.user
+        return self.user.username
 
 
     def get_absolute_url(self):
-        url = reverse("users:profile_view", kwargs={"username": self.user})
+        url = reverse("users:profile_view", kwargs={"username": self.user.username})
         return url
