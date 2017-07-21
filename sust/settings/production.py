@@ -16,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['sustenergy.herokuapp.com']
 
@@ -57,10 +57,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'storages',
 
-    'users',
     'forum',
     'home',
     'pushnote',
+    'users',
 ]
 
 SITE_ID = 1

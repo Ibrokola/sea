@@ -37,6 +37,7 @@ class ProfileUserView(LoginRequiredMixin, View):
         except EmptyPage:
              post = paginator.page(paginator.num_pages)
         profile = Profile.objects.get(user=user)
+        print(profile)
         template = 'users/profile_user.html'
         context = {
             'profile': profile,
@@ -59,6 +60,7 @@ class ProfileView(LoginRequiredMixin, View):
         except EmptyPage:
              post = paginator.page(paginator.num_pages)
         profile = Profile.objects.get(user=user)
+        print(profile)
         template = 'users/profile_view.html'
         context = {
             'profile': profile,
