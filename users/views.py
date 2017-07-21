@@ -16,12 +16,13 @@ from forum.models import Post
 
 from .models import UserProfile as Profile
 
+from django.conf import settings
 
 
 from .forms import ProfileEditForm
 
 
-User = get_user_model()
+User = settings.AUTH_USER_MODEL
 
 
 class ProfileUserView(LoginRequiredMixin, View):
@@ -37,7 +38,7 @@ class ProfileUserView(LoginRequiredMixin, View):
         #      post = paginator.page(1)
         # except EmptyPage:
         #      post = paginator.page(paginator.num_pages)
-        profile = Profile.objects.get(user=user.id)
+        profile = Profile.objects.get(user=user).id
         print(profile)
         template = 'users/profile_user.html'
         context = {

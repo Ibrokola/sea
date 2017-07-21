@@ -101,7 +101,7 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):              # __unicode__ on Python 2
-        return str(self.username)
+        return self.username
      
     class Meta:
         db_table = "users"
