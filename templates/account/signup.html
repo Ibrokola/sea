@@ -15,12 +15,19 @@
 				<div class="form-header blue-grey darken-3">
 					<h3><i class="fa fa-user"></i> Register:</h3>
 				</div>
+				<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">Login</a>.{% endblocktrans %}</p>
+
+				<p class="text-center">{% blocktrans with site.name as site_name %} Signup faster with your existing social media accounts.{% endblocktrans %}</p>
+
+				<div class="socialaccount_ballot text-center">
 					<!-- <h1>{% trans "Sign Up" %}</h1> -->
 					{% load socialaccount %}
-					<a href="{# provider_login_url 'facebook' method='oauth2' #}" class='btn-floating btn-small btn-fb'><i class="fa fa-facebook"></i></a>
-					<a href="{# provider_login_url 'twitter' #}" class='btn-floating btn-small btn-tw'><i class="fa fa-twitter"></i></a>
+					<a href="{% provider_login_url 'facebook' method='oauth2' %}" class='btn-floating btn-small btn-fb'><i class="fa fa-facebook"></i></a>
+					<a href="{% provider_login_url 'twitter' %}" class='btn-floating btn-small btn-tw'><i class="fa fa-twitter"></i></a>
+					<a href="{% provider_login_url 'google' method='oauth2' %}" class='btn-floating btn-small btn-gg'><i class="fa fa-google"></i></a>
 
-					<p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">Login</a>.{% endblocktrans %}</p>
+					<div class="login-or text-center">{% trans 'or' %}</div>
+				</div>
 
 					<form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
 					{% csrf_token %}

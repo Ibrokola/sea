@@ -57,15 +57,15 @@ class MyUser(AbstractBaseUser):
         unique=True,
     )
     first_name = models.CharField(
-				max_length=120,
-				null=True,
-				blank=True
-				)
+                max_length=120,
+                null=True,
+                blank=True
+                )
     last_name = models.CharField(
-				max_length=120,
-				null=True,
-				blank=True
-				)
+                max_length=120,
+                null=True,
+                blank=True
+                )
     score = models.IntegerField(default=0)
     # is_member = models.BooleanField(default=False, verbose_name= 'Is Paid_Member')
     is_active = models.BooleanField(default=True)
@@ -120,7 +120,7 @@ post_save.connect(new_user_reciever, sender=MyUser)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(MyUser)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
     rank = models.CharField(max_length=50, default="Beginner")
     bio = models.TextField(null=True, blank=True)
     website_link = models.CharField(max_length=320,

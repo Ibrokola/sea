@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -6,21 +8,19 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import F
 
 from django.forms.models import model_to_dict
-
-from django.http import HttpResponse, HttpResponseRedirect
 from django.views import View
 
-from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, get_object_or_404
 from users.models import UserProfile as Profile
 
-
+from users.models import MyUser as User
 
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 
 from .forms import CommentForm, StartDiscussionForm
 from .models import Post, Vote, Comment, Favourite
+
 
 # Discussion View, renders the discussion/topic posting to the author/other users
 @method_decorator(login_required, name='post')
@@ -158,27 +158,27 @@ class StartDiscussionView(LoginRequiredMixin, View):
 @login_required
 @require_http_methods(['POST'])
 def upvote_post(request, post_id):
-	post = get_object_or_404(Post, pk=post_id)
-	post.upvote(request.user)
-	return HttpResponse('OK')
+    post = get_object_or_404(Post, pk=post_id)
+    post.upvote(request.user)
+    return HttpResponse('OK')
 
 
 
 @login_required
 @require_http_methods(['POST'])
 def downvote_post(request, post_id):
-	post = get_object_or_404(Post, pk=post_id)
-	post.downvote(request.user)
-	return HttpResponse('OK')
+    post = get_object_or_404(Post, pk=post_id)
+    post.downvote(request.user)
+    return HttpResponse('OK')
 
  
 
 @login_required
 @require_http_methods(['POST'])
 def undo_vote_on_post(request, post_id):
-	post = get_object_or_404(Post, pk=post_id)
-	post.undo_vote(request.user)
-	return HttpResponse('OK')
+    post = get_object_or_404(Post, pk=post_id)
+    post.undo_vote(request.user)
+    return HttpResponse('OK')
 
 
 
@@ -205,5 +205,3 @@ def undo_vote_on_comment(request, comment_id):
     comment = get_object_or_404(Comment, pk=comment_id)
     comment.undo_vote(request.user)
     return HttpResponse('OK')
-
-

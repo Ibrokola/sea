@@ -13,13 +13,15 @@ from .utils import unique_slug_generator
 from django.db import models
 from django.db.models import F
 
+from pushnote.models import Subscription
+
 from .utils import notify_users
 
 SERVER_URL = "http://127.0.0.1:8000/"
 
-UPVOTE   = 3
+UPVOTE = 1
 DOWNVOTE = 2
-FLAG     = 1
+FLAG = 3
  
 
 class Vote(models.Model):
@@ -28,11 +30,11 @@ class Vote(models.Model):
         index_together = [
             ["content_type", "object_id"],
         ]
-        
+
     # The following 3 fields represent the Comment or Post
     # on which a vote has been cast
     # See Generic Relations in Django's documentation
-    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT) # gets the contenttype for each model inheriting it
+    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
     voter = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -45,7 +47,7 @@ class Vote(models.Model):
 
 class Votable(models.Model):
     """ An object on which people would want to vote
-        Post and Comment are real classes
+        Post and Comment are concrete classes
     """
     class Meta:
         abstract = True
@@ -58,25 +60,25 @@ class Votable(models.Model):
     upvotes = models.IntegerField(default=0)
     downvotes = models.IntegerField(default=0)
     flags = models.IntegerField(default=0)
-    
+
     def upvote(self, user):
         self._vote(user, UPVOTE)
-    
+
     def downvote(self, user):
         self._vote(user, DOWNVOTE)
-    
+
     def flag(self, user):
         self._vote(user, FLAG)
 
     def unflag(self, user):
-        raise Exception("can't be unflagged")
+        raise Exception("not yet implemented")
 
     def undo_vote(self, user):
         content_type = ContentType.objects.get_for_model(self)
         votes = Vote.objects.filter(content_type=content_type.id,
             object_id=self.id, type_of_vote__in=(UPVOTE, DOWNVOTE),
             voter=user)
-        
+
         upvotes = 0
         downvotes = 0
         for v in votes:
@@ -104,7 +106,7 @@ class Votable(models.Model):
             return
 
         # First, save the vote
-        vote = Vote(content_object=self, voter=user, 
+        vote = Vote(content_object=self, voter=user,
             type_of_vote=type_of_vote)
         vote.save()
 
@@ -131,37 +133,40 @@ class Votable(models.Model):
 
     def _already_voted(self, user, content_type, type_of_vote):
         return Vote.objects.filter(content_type=content_type.id,
-                                object_id=self.id,
-                                voter=user, 
-                                type_of_vote=type_of_vote).exists()
+                    object_id=self.id,\
+                    voter=user, type_of_vote=type_of_vote)\
+                .exists()
 
 
 
 class PostsManager(models.Manager):
-    def get_post_with_my_votes(self, post_id, user, *args, **kwargs):
-        post = Post.objects.annotate(score=F('upvotes') - F('downvotes')).select_related("author").get(pk=post_id)
+    def get_post_with_my_votes(self, post_id, user):
+        post = Post.objects\
+            .annotate(score=F('upvotes') - F('downvotes'))\
+            .select_related("author").get(pk=post_id)
 
         if user and user.is_authenticated():
             content_type = ContentType.objects.get_for_model(Post)
             post_votes = Vote.objects.filter(content_type=content_type.id,
                 object_id=post_id, type_of_vote__in=(UPVOTE, DOWNVOTE),
                 voter=user)
-            
+
             for v in post_votes:
                 if v.type_of_vote == UPVOTE:
                     post.is_upvoted = True
                 elif v.type_of_vote == DOWNVOTE:
                     post.is_downvoted = True
         return post
-    
+
     def recent_posts_with_my_votes(self, user=None):
-        posts = Post.objects.annotate(score=F('upvotes') - F('downvotes')).select_related("author").order_by("-submission_time")[:50]
+        posts = Post.objects\
+            .annotate(score=F('upvotes') - F('downvotes'))\
+            .select_related("author")\
+            .order_by("-submission_time")[:50]
         if user:
             posts = self._append_votes_by_user(posts, user)
         return posts
-    
-    # get individual post from specific authors
-    
+
     def _append_votes_by_user(self, posts, user):
         # Returns a dictionary
         # key = postid
@@ -169,11 +174,12 @@ class PostsManager(models.Manager):
         # for example set('downvote', 'flag')
         post_ids = [p.id for p in posts]
         post_type = ContentType.objects.get_for_model(Post)
-        objects = Vote.objects.only('object_id', 'type_of_vote').filter(
-                        content_type=post_type.id,
+        objects = Vote.objects.\
+                    only('object_id', 'type_of_vote').\
+                    filter(content_type=post_type.id,
                         object_id__in=post_ids,
-                        voter=user
-                  )
+                        voter=user)
+
         votes_by_post = defaultdict(set)
         for obj in objects:
             votes_by_post[obj.object_id].add(obj.type_of_vote)
@@ -186,7 +192,8 @@ class PostsManager(models.Manager):
             elif DOWNVOTE in votes_by_post[post.id]:
                 post.is_downvoted = True
             elif FLAG in votes_by_post[post.id]:
-                post.is_flagged = True    
+                post.is_flagged = True
+
         return posts
 
     def vote_type_to_string(self, vote_type):
@@ -208,10 +215,10 @@ class Post(Votable):
     title = models.CharField(max_length=120)
     slug = models.SlugField(null=True, blank=True)
     # url = models.URLField(blank=True)
-    text = models.TextField(blank=True, max_length=8192)
+    text = models.TextField(blank=True)
     submission_time = models.DateTimeField(auto_now_add=True)
     num_comments = models.IntegerField(default=0)
-    views = models.IntegerField(default=0)
+    # views = models.IntegerField(default=0)
 
     # def get_absolute_url(self):
     #     return "/discuss/%i/" % self.id
@@ -259,22 +266,22 @@ pre_save.connect(post_pre_save_receiver, sender=Post)
 class CommentsManager(models.Manager):
     def best_ones_first(self, post_id, user_id):
         comment_type = ContentType.objects.get_for_model(Comment)
-        
+
         from django.db import connection
         with connection.cursor() as cursor:
             cursor.execute("""
                 SELECT c.id, c.text, u.id, u.username, c.submission_time,
-                c.wbs, length(c.wbs)/5 as indent, 
+                c.wbs, length(c.wbs)/5 as indent,
                 c.upvotes, c.downvotes, c.flags,
                 c.upvotes - c.downvotes as score,
                 up.is_upvoted, down.is_downvoted
-                FROM comments c 
+                FROM comments c
                 INNER JOIN users u on c.author_id = u.id
                 LEFT OUTER JOIN (
                     SELECT 1 as is_upvoted, v1.object_id as comment_id
                     FROM votes v1
                     WHERE v1.content_type_id = %s
-                    AND type_of_vote = 3
+                    AND type_of_vote = 1
                     AND v1.voter_id = %s
                 ) up on c.id = up.comment_id
                 LEFT OUTER JOIN (
@@ -286,14 +293,14 @@ class CommentsManager(models.Manager):
                 ) down on c.id = down.comment_id
                 WHERE c.post_id = %s
                 ORDER BY c.wbs
-            """, [comment_type.id, user_id, 
-                    comment_type.id, user_id, 
+            """, [comment_type.id, user_id,
+                    comment_type.id, user_id,
                     post_id])
-            
+
             comments = []
             for row in cursor.fetchall():
                 comment = self.model(
-                        id = row[0], text = row[1], 
+                        id = row[0], text = row[1],
                         submission_time = row[4],
                         wbs = row[5],
                         upvotes = row[7], downvotes=row[8],
@@ -315,16 +322,15 @@ class Comment(Votable):
         unique_together = [
             ["post", "wbs"],
         ]
-        ordering = ['-submission_time']
     objects = CommentsManager()
 
     post = models.ForeignKey(Post, related_name="comments")
     parent_comment = models.ForeignKey('self', 
                 null=True, blank=True,
                 on_delete=models.PROTECT)
-    text = models.TextField(max_length=8192)
+    text = models.TextField()
     submission_time = models.DateTimeField(auto_now_add=True)
-    num_reply = models.IntegerField(default=0)
+    # num_reply = models.IntegerField(default=0)
     
     # wbs helps us to track the comments as a tree
     # Format is .0000.0000.0000.0000.0000.0000
@@ -346,15 +352,15 @@ class Comment(Votable):
         comment.post.save()
         
         #Gives sum of replies to parent comment
-        self.num_reply = F('num_reply') + 1
-        self.save(update_fields=["num_reply"])
+        # self.num_reply = F('num_reply') + 1
+        # self.save(update_fields=["num_reply"])
 
         if(comment.post.author.username != author.username):
             notify_users(
                     [comment.post.author],
                     "%s commented on your post" % comment.author.username,
                     comment.text,
-                    reverse("reply_to_comment", args=[comment.id])
+                    reverse("forum:reply_to_comment", args=[comment.id])
                 )
 
         if(comment.parent_comment.author.username != author.username):
@@ -362,7 +368,7 @@ class Comment(Votable):
                     [comment.parent_comment.author],
                     "%s replied to your comment" % comment.author.username,
                     comment.text,
-                    reverse("reply_to_comment", args=[comment.id])
+                    reverse("forum:reply_to_comment", args=[comment.id])
                 )
 
         return comment
@@ -399,20 +405,20 @@ def _find_next_wbs(post, parent_wbs=None):
         next_wbs = int(last_wbs) + 1
         return first_wbs + '{0:04d}'.format(next_wbs)
 
-# def notify_users(users, title, body, relative_link):
-#     for user in users:
-#         for subscription in user.subscriptions.all():
-#             subscription.send_notification(
-#                 title,
-#                 {
-#                     "body": body,
-#                     "icon": "/apple-icon-120x120.png",
-#                     "badge": "/android-icon-96x96.png",
-#                     "data": {
-#                         "link": "%s%s" % (SERVER_URL, relative_link)
-#                     }
-#                 }
-#             )
+def notify_users(users, title, body, relative_link):
+    for user in users:
+        for subscription in user.subscriptions.all():
+            subscription.send_notification(
+                title,
+                {
+                    "body": body,
+                    "icon": "/apple-icon-120x120.png",
+                    "badge": "/android-icon-96x96.png",
+                    "data": {
+                        "link": "%s%s" % (SERVER_URL, relative_link)
+                    }
+                }
+            )
 
 class Favourite(models.Model):
     class Meta:

@@ -22,7 +22,7 @@
                     </div>
                     {% if post.text %}
                     <div class="post">
-                        {% include "forum/snippet/post_vote_control.html" with obj_type=posts obj=post %}
+                        {% include "forum/snippet/post_vote_control.html" with obj_type='posts' obj=post %}
                         <div class="post-text">
                             <p>{{ post.text | markdown }}</p>
                         </div>
@@ -42,7 +42,7 @@
                 <div class="comments">
                     {% for comment in comments %}
                     <div id="comment-{{comment.id}}" class="comment indent-{{comment.indent}}">
-                        {% include "forum/snippet/post_vote_control.html" with obj_type=posts obj=post %}
+                        {% include "forum/snippet/post_vote_control.html" with obj_type='comments' obj=comment %}
                         <div class="">
                             <div class="comment-header">
                                 <span class="comment-author">

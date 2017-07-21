@@ -1,4 +1,6 @@
 import os
+import smtplib
+import integrate
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -16,6 +18,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')
+
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+ADMINS = (
+    ('Ibraheem', 'ibrokolawole@email.com'),
+)
+MANAGERS = ADMINS
+
 
 # Application definition
 
@@ -32,6 +47,9 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.twitter',
+    'allauth.socialaccount.providers.google',
     'crispy_forms',
 
     'users',

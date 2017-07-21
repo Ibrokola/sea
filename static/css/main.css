@@ -1,11 +1,11 @@
-/*.logo {
-    color: #ff5722;
+.logo {
+    color: #fff;
     font-size: 2rem;
     display: -webkit-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-}*/
+}
 
 .post {
     display: -webkit-box;
@@ -144,7 +144,7 @@ h1 {
 
 .comment-text {
     margin-bottom: 5px;
-    min-height: 40px;
+    min-height: 40px; 
 }
 
 .comment-header,

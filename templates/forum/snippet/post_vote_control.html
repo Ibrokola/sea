@@ -1,32 +1,32 @@
-<div data-object-type="{{ obj_type }}" data-object-id="{{obj.id}}" class="vote-control">
-	{# Unauthorized users can't have access to vote button #}
-	{% if not request.user.is_authenticated %}
-	<button class="vote-button upvote" data-state="disabled"></button>
-	<button class="vote-button downvote" data-state="disabled"></button>
+<div data-object-type="{{obj_type}}" data-object-id="{{obj.id}}" class="vote-control">
+  {# Unauthenticated users don't see vote button #}
+  {% if not request.user.is_authenticated %}
+  <button class="vote-button upvote" data-state="disabled"></button>
+  <button class="vote-button downvote" data-state="disabled"></button>
 
-	{# Authorized users can't have access to vote on their own content #}
-	{% elif request.user.id == obj.author.id %}
-	<button class="vote-button upvote" data-state="disabled"></button>
-	<button class="vote-button downvote" data-state="disabled"></button>
+  {# Users are not allowed to vote on their own content #}
+  {% elif request.user.id == obj.author.id %}
+  <button class="vote-button upvote" data-state="disabled"></button>
+  <button class="vote-button downvote" data-state="disabled"></button>
+  
+  {# Same content upvoted and downvoted. Shouldn't happen in general #}
+  {% elif obj.is_upvoted and obj.is_downvoted %}
+  <button class="vote-button upvote" data-state="voted"></button>
+  <button class="vote-button downvote" data-state="voted"></button>
 
-	{# Same content can't have two opposing votes #}
-	{% elif obj.is_upvoted and obj.is_downvoted %}
-	<button class="vote-button upvote" data-state="voted"></button>
-	<button class="vote-button downvote" data-state="voted"></button>
-
-	{# If already upvoted, disable downvote button #}
-	{% elif obj.is_upvoted %}
-	<button class="vote-button upvote" data-state="voted"></button>
-	<button class="vote-button downvote" data-state="disabled"></button>
-
-	{# If already downvoted, disable upvote button #}
-	{% elif obj.is_downvoted %}
-	<button class="vote-button upvote" data-state="disabled"></button>
-	<button class="vote-button downvote" data-state="voted"></button>	
-
-	{# No votes yet, allow both upvote and downvote #}
-	{% else %}
-	<button class="vote-button upvote" data-state="enabled"></button>
-	<button class="vote-button downvote" data-state="enabled"></button>	
-	{% endif %}
+  {# If already upvoted, disable downvote button #}
+  {% elif obj.is_upvoted %}
+  <button class="vote-button upvote" data-state="voted"></button>
+  <button class="vote-button downvote" data-state="disabled"></button>
+  
+  {# If already downvoted, disable upvote button #}
+  {% elif obj.is_downvoted %}
+  <button class="vote-button upvote" data-state="disabled"></button>
+  <button class="vote-button downvote" data-state="voted"></button>
+  
+  {# Enable both upvote and downvote #}
+  {% else %}
+  <button class="vote-button upvote" data-state="enabled"></button>
+  <button class="vote-button downvote" data-state="enabled"></button>
+  {% endif %}
 </div>

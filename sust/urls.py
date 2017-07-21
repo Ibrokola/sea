@@ -6,7 +6,15 @@ from django.conf.urls.static import static
 
 
 from home.views import homepage
-
+from forum.views import (
+                    upvote_post,
+                    downvote_post,
+                    undo_vote_on_post, 
+                    upvote_comment,
+                    downvote_comment,
+                    undo_vote_on_comment
+                )
+                
 
 
 urlpatterns = [
@@ -16,26 +24,19 @@ urlpatterns = [
     url(r'^users/', include('users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnot/', include('pushnote.urls')),
-    url(r'^', include('django.contrib.auth.urls')),
+    # url(r'^', include('django.contrib.auth.urls')),
+
+    url(r'^api/posts/(?P<post_id>\d+)/upvote$', upvote_post, name="upvote_post"),
+    url(r'^api/posts/(?P<post_id>\d+)/downvote$', downvote_post, name="downvote_post"),
+    url(r'^api/posts/(?P<post_id>\d+)/undovote$', undo_vote_on_post, name="undo_vote_on_post"),
+
+    url(r'^api/comments/(?P<comment_id>\d+)/upvote$', upvote_comment, name="upvote_comment"),
+    url(r'^api/comments/(?P<comment_id>\d+)/downvote$', downvote_comment, name="downvote_comment"),
+    url(r'^api/comments/(?P<comment_id>\d+)/undovote$', undo_vote_on_comment, name="undo_vote_on_comment"),
+
 ]
 
 if settings.DEBUG:
-	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-
-
-
-def index(request):
-    user_list = User.objects.all()
-    page = request.GET.get('page', 1)
-
-    paginator = Paginator(user_list, 10)
-    try:
-        users = paginator.page(page)
-    except PageNotAnInteger:
-        users = paginator.page(1)
-    except EmptyPage:
-        users = paginator.page(paginator.num_pages)
-
-    return render(request, 'core/user_list.html', { 'users': users })
