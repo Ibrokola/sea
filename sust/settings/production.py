@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'home',
     'pushnote',
     'users',
+    'profiles',
 ]
 
 SITE_ID = 1

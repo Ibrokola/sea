@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'forum',
     'home',
     'pushnote',
+    'profiles',
 ]
 
 SITE_ID = 1

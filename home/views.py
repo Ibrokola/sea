@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from forum.models import Post
-from users.models import UserProfile as Profile
+from profiles.models import Profile #UserProfile as
 from .models import HomeCarousel, Marketing
 
 def homepage(request):

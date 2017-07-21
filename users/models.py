@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.core.urlresolvers import reverse
 
 from django.db import models
-from django.db.models.signals import post_save
+
 from django.utils import timezone	
 
 
@@ -107,40 +107,3 @@ class MyUser(AbstractBaseUser):
         db_table = "users"
 
 
-def new_user_reciever(sender, instance, created, *args, **kwargs):
-    if created:
-        new_profile, is_created = UserProfile.objects.get_or_create(user=instance)
-	# else:
-	# 	messages.error(request, "There was an error with your account. Please contact us.")
-
-
-
-post_save.connect(new_user_reciever, sender=MyUser)
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(MyUser)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    rank = models.CharField(max_length=50, default="Beginner")
-    bio = models.TextField(null=True, blank=True)
-    website_link = models.CharField(max_length=320,
-                                    null=True,
-                                    blank=True,
-                                    verbose_name='Personal website url')
-    facebook_link = models.CharField(max_length=320,
-                                    null=True,
-                                    blank=True,
-                                    verbose_name='Facebook profile url')
-    twitter_handle = models.CharField(max_length=320,
-                                    null=True,
-                                    blank=True,
-                                    verbose_name='Twitter handle')
-
-
-    def __str__(self):
-        return str(self.user.username)
-
-
-    def get_absolute_url(self):
-        url = reverse("users:profile_view", kwargs={"username": self.user.username})
-        return url

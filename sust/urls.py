@@ -21,7 +21,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', homepage, name='home'),
     url(r'^forum/', include('forum.urls', namespace='forum')),
-    url(r'^users/', include('users.urls', namespace='users')),
+    url(r'^u/', include('profiles.urls', namespace='profile')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnote/', include('pushnote.urls')),
     url(r'^', include('django.contrib.auth.urls')),

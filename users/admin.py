@@ -6,7 +6,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import MyUser, UserProfile
+from .models import MyUser #UserProfile
 
 
 class UserAdmin(BaseUserAdmin):
@@ -37,6 +37,6 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 admin.site.register(MyUser, UserAdmin)
-admin.site.register(UserProfile)
+# admin.site.register(UserProfile)
 
 admin.site.unregister(Group)
