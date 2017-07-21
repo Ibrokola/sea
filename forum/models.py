@@ -17,7 +17,7 @@ from pushnote.models import Subscription
 
 from .utils import notify_users
 
-SERVER_URL = "http://127.0.0.1:8000/"
+SERVER_URL = "https://sustenergy.herokuapp.com/"
 
 UPVOTE = 1
 DOWNVOTE = 2
