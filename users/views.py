@@ -1,19 +1,21 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
-from django.conf import settings
-from django.contrib.auth import get_user_model
 
-from django.http import HttpResponse, HttpResponseRedirect
+
+from django.http import HttpResponseRedirect
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import View
+
 from django.core.urlresolvers import reverse
 
+from django.views.generic import View
+
+from forum.models import Post
 
 from .models import UserProfile as Profile, MyUser as User
 
-from forum.models import Post
+
 
 from .forms import ProfileEditForm
 
