@@ -101,7 +101,7 @@ class MyUser(AbstractBaseUser):
         return self.is_admin
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.username
+        return str(self.username)
      
     class Meta:
         db_table = "users"
@@ -138,7 +138,7 @@ class UserProfile(models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return str(self.user.username)
 
 
     def get_absolute_url(self):
