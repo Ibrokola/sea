@@ -8,10 +8,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import F
 
 from django.forms.models import model_to_dict
-from django.views import View
+from django.views.generic import View
 
 from django.shortcuts import render, get_object_or_404
-from users.models import UserProfile as Profile
 
 from users.models import MyUser as User
 
@@ -23,7 +22,7 @@ from .models import Post, Vote, Comment, Favourite
 
 
 # Discussion View, renders the discussion/topic posting to the author/other users
-@method_decorator(login_required, name='post')
+# @method_decorator(login_required, name='post')
 class DiscussionView(View):
     def get(self, request, post_id, *args, **kwargs):
         # post_slug = self.kwargs.get('slug')

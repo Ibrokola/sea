@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404
-from django.views import View
+from django.views.generic import View
 from django.core.urlresolvers import reverse
 
 
@@ -21,7 +21,7 @@ from .forms import ProfileEditForm
 # User = get_user_model()
 
 
-class ProfileUserView(LoginRequiredMixin, View):
+class ProfileUserView(View):
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(User, username=request.user)
         post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
@@ -43,7 +43,7 @@ class ProfileUserView(LoginRequiredMixin, View):
         return render(request, template, context)
 
 
-class ProfileView(LoginRequiredMixin, View):
+class ProfileView(View):
     def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
@@ -65,7 +65,7 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, template, context)
 
 
-class ProfileEditView(LoginRequiredMixin, View):
+class ProfileEditView(View):
     def get(self, request, *args, **kwargs):
         profile, created = Profile.objects.get_or_create(user=request.user)
         form = ProfileEditForm()
