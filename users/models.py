@@ -138,9 +138,9 @@ class UserProfile(models.Model):
 
 
     def __str__(self):
-        return self.user.username
+        return self.user
 
 
     def get_absolute_url(self):
-        url = reverse("users:profile_view", kwargs={"username": self.user.username})
+        url = reverse("users:profile_view", kwargs={"username": self.user})
         return url
