@@ -24,12 +24,12 @@ from .forms import ProfileEditForm
 User = get_user_model()
 
 
-class ProfileUserView(LoginRequiredMixin, View):
+class ProfileUserView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
-            user = get_object_or_404(User, username=request.user)
+            # user = get_object_or_404(User, username=request.user)
             # user = User.objects.get(username=request.user)
-            post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+            post_list = Post.objects.filter(author__username__iexact=request.user).order_by('-submission_time')
             paginator = Paginator(post_list, 10)
             page = request.GET.get('page')
             
@@ -39,7 +39,7 @@ class ProfileUserView(LoginRequiredMixin, View):
                 post = paginator.page(1)
             except EmptyPage:
                 post = paginator.page(paginator.num_pages)
-            profile = Profile.objects.get(user=user)
+            profile = Profile.objects.get(user=request.user)
             template = 'profiles/profile_user.html'
             context = {
                 'profile': profile,
@@ -50,7 +50,7 @@ class ProfileUserView(LoginRequiredMixin, View):
             return HttpResponseRedirect(reverse('account_login'))
 
 
-class ProfileView(LoginRequiredMixin, View):
+class ProfileView(View):
     def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
         post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
@@ -72,7 +72,7 @@ class ProfileView(LoginRequiredMixin, View):
         return render(request, template, context)
 
 
-class ProfileEditView(LoginRequiredMixin, View):
+class ProfileEditView(View):
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(user=request.user)
         form = ProfileEditForm()
