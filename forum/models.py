@@ -212,7 +212,7 @@ class Post(Votable):
         ]
     objects = PostsManager()
     title = models.CharField(max_length=500)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(max_lenth=500,null=True, blank=True)
     # url = models.URLField(blank=True)
     text = models.TextField(max_length=8192, blank=True)
     submission_time = models.DateTimeField(auto_now_add=True)
