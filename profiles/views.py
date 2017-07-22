@@ -28,7 +28,7 @@ class ProfileUserView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated():
             try:
-                user = get_object_or_404(User, username=request.user)
+                user = get_object_or_404(User, username=request.user.profile)
                 # user = User.objects.get(username=request.user)
                 post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
                 paginator = Paginator(post_list, 10)
