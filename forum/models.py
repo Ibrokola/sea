@@ -211,10 +211,10 @@ class Post(Votable):
             ["submission_time",],
         ]
     objects = PostsManager()
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=500)
     slug = models.SlugField(null=True, blank=True)
     # url = models.URLField(blank=True)
-    text = models.TextField(blank=True)
+    text = models.TextField(max_length=8192, blank=True)
     submission_time = models.DateTimeField(auto_now_add=True)
     num_comments = models.IntegerField(default=0)
     # views = models.IntegerField(default=0)
@@ -323,7 +323,7 @@ class Comment(Votable):
     parent_comment = models.ForeignKey('self', 
                 null=True, blank=True,
                 on_delete=models.PROTECT)
-    text = models.TextField()
+    text = models.TextField(max_length=8192)
     submission_time = models.DateTimeField(auto_now_add=True)
     # num_reply = models.IntegerField(default=0)
     
