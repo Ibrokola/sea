@@ -26,25 +26,28 @@ User = get_user_model()
 
 class ProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, username=request.user)
-        # user = User.objects.get(username=request.user)
-        post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
-        paginator = Paginator(post_list, 10)
-        page = request.GET.get('page')
-        
-        try:
-            post = paginator.page(page)
-        except PageNotAnInteger:
-             post = paginator.page(1)
-        except EmptyPage:
-             post = paginator.page(paginator.num_pages)
-        profile = Profile.objects.get(user=user)
-        template = 'profiles/profile_user.html'
-        context = {
-            'profile': profile,
-            'post': post
-            }
-        return render(request, template, context)
+        if request.user.is_authenticated():
+            user = get_object_or_404(User, username=request.user)
+            # user = User.objects.get(username=request.user)
+            post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+            paginator = Paginator(post_list, 10)
+            page = request.GET.get('page')
+            
+            try:
+                post = paginator.page(page)
+            except PageNotAnInteger:
+                post = paginator.page(1)
+            except EmptyPage:
+                post = paginator.page(paginator.num_pages)
+            profile = Profile.objects.get(user=user)
+            template = 'profiles/profile_user.html'
+            context = {
+                'profile': profile,
+                'post': post
+                }
+            return render(request, template, context)
+        else:
+            return HttpResponseRedirect(reverse('account_login'))
 
 
 class ProfileView(LoginRequiredMixin, View):
