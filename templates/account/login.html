@@ -34,7 +34,7 @@
                   {% load socialaccount %}
                   <a href="{% provider_login_url 'facebook' method='oauth2' %}" class='btn-floating btn-small btn-fb'><i class="fa fa-facebook"></i></a>
                   <a href="{% provider_login_url 'twitter' %}" class='btn-floating btn-small btn-tw'><i class="fa fa-twitter"></i></a>
-                  <a href="{% provider_login_url 'google' %}" class='btn-floating btn-small btn-gg'><i class="fa fa-google"></i></a>
+                  <a href="{% provider_login_url 'google' method='oauth2' %}" class='btn-floating btn-small btn-gg'><i class="fa fa-google"></i></a>
 
                   <div class="login-or text-center">{% trans 'or' %}</div>
 
