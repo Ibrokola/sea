@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.fields import GenericRelation, GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.validators import MinValueValidator, MaxValueValidator
-from users.models import MyUser as User
+from users.models import User
 
 from django.db.models.signals import pre_save, post_save
 from django.core.urlresolvers import reverse

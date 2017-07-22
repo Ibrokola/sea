@@ -62,7 +62,7 @@ INSTALLED_APPS = [
 SITE_ID = 1
 
 
-AUTH_USER_MODEL = 'users.MyUser'
+AUTH_USER_MODEL = 'users.User'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`

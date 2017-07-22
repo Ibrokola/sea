@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.core.exceptions import ObjectDoesNotExist
 
-from users.models import MyUser as User
+from users.models import User
 from .models import Subscription
 
 @login_required

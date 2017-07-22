@@ -1,6 +1,6 @@
 import json
 from django.db import models
-from users.models import MyUser as User
+from users.models import User
 from pywebpush import WebPusher
 
 from django.conf import settings

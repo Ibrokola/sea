@@ -12,7 +12,7 @@ from django.views.generic import View
 
 from django.shortcuts import render, get_object_or_404
 
-from users.models import MyUser as User
+from users.models import User
 
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
