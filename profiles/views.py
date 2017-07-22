@@ -81,7 +81,7 @@ class ProfileEditView(View):
         return render(request, template, context)
 
     def post(self, request, *args, **kwargs):
-        profile = Profile.objects.get(user=request.user.username)
+        profile = Profile.objects.get(user=request.user)
         form = ProfileEditForm(request.POST or None, request.FILES or None, instance=profile)
         template = 'profiles/profile_edit.html'
         context = {"form": form}
