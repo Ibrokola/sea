@@ -53,7 +53,7 @@ class ProfileUserView(View):
 class ProfileView(View):
     def get(self, request, username, *args, **kwargs):
         user = get_object_or_404(User, username=username)
-        post_list = Post.objects.filter(author__username__iexact=user).order_by('-submission_time')
+        post_list = Post.objects.filter(author__username__iexact=user.username).order_by('-submission_time')
         paginator = Paginator(post_list, 10)
         page = request.GET.get('page')
         
@@ -74,14 +74,14 @@ class ProfileView(View):
 
 class ProfileEditView(View):
     def get(self, request, *args, **kwargs):
-        profile = Profile.objects.get(user=request.user)
+        profile = Profile.objects.get(user=request.user.username)
         form = ProfileEditForm()
         template = 'profiles/profile_edit.html'
         context = {"form": form}
         return render(request, template, context)
 
     def post(self, request, *args, **kwargs):
-        profile, created = Profile.objects.get(user=request.user)
+        profile = Profile.objects.get(user=request.user.username)
         form = ProfileEditForm(request.POST or None, request.FILES or None, instance=profile)
         template = 'profiles/profile_edit.html'
         context = {"form": form}
