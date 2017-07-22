@@ -7,8 +7,9 @@ from django.conf import settings
 from decouple import config
 
 
+SERVER_KEY = "AAAACVy0V7s:APA91bFEQzFmegiGcOxCvY7JDgmBAZsSyOSpTIMTVosdQN9N3wLEYzq3ecrJRBiT3GraiO9fD-5I3NedgD0SFGBz8NGm1JwHbknOD1tvbq0cZXy9IBZYS8I60BB0nQ_4rgggyUCKvWMks"
 
-SERVER_KEY = config("SERVER_KEY")
+# SERVER_KEY = config("SERVER_KEY")
 
 class Subscription(models.Model):
     class Meta:
