@@ -74,7 +74,7 @@ class ProfileView(View):
 
 class ProfileEditView(View):
     def get(self, request, *args, **kwargs):
-        profile = Profile.objects.get(user=request.user.username)
+        profile = Profile.objects.get(user=request.user)
         form = ProfileEditForm()
         template = 'profiles/profile_edit.html'
         context = {"form": form}
