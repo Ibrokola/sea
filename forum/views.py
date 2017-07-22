@@ -125,32 +125,35 @@ class EditComment(LoginRequiredMixin, View):
 
 
 class StartDiscussionView(LoginRequiredMixin, View):
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        form = StartDiscussionForm(initial={"author": user})
-        side1 = Post.objects.filter(num_comments__gte=10)[:5]
-        side2 = Post.objects.order_by('-submission_time')[:5]
-        template = 'forum/start.html'
-        context = {
-            "form": form,
-            "side1": side1,
-            "side2": side2
-        }
-        return render(request, template, context)
-
-    def post(self, request, *args, **kwargs):
-        # post_slug = self.kwargs.get('slug')
-        form = StartDiscussionForm(request.POST)
-        template = 'forum/start.html'
-        context = {"form": form}
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            new_post_url = reverse('forum:discussion', args=[post.id])
-            return HttpResponseRedirect(new_post_url)
-        else:
+        def get(self, request, *args, **kwargs):
+            user = request.user
+            form = StartDiscussionForm(initial={"author": user})
+            side1 = Post.objects.filter(num_comments__gte=10)[:5]
+            side2 = Post.objects.order_by('-submission_time')[:5]
+            template = 'forum/start.html'
+            context = {
+                "form": form,
+                "side1": side1,
+                "side2": side2
+            }
             return render(request, template, context)
+
+        def post(self, request, *args, **kwargs):
+            if request.user.is_authenticated():
+                # post_slug = self.kwargs.get('slug')
+                form = StartDiscussionForm(request.POST)
+                template = 'forum/start.html'
+                context = {"form": form}
+                if form.is_valid():
+                    post = form.save(commit=False)
+                    post.author = request.user
+                    post.save()
+                    new_post_url = reverse('forum:discussion', args=[post.id])
+                    return HttpResponseRedirect(new_post_url)
+                else:
+                    return render(request, template, context)
+            else:
+                return HttpResponseRedirect(reverse('account_login'))
 
 
 

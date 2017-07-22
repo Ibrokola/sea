@@ -23,17 +23,18 @@ class StartDiscussionForm(forms.ModelForm):
             'text': 'Details'
         }
         help_text = {
-            'title': 'Title',
+            'title': 'Title, not more than 500 words',
             'text': 'Markdown syntax allowed'
         }
 
     def clean(self):
         cleaned_data = super(StartDiscussionForm, self).clean()
         # url = cleaned_data.get("url")
+        title = cleaned_data.get("title") 
         text = cleaned_data.get("text")
-        if not text:
+        if not text and not title:
             raise forms.ValidationError(
-            "Text field is empty. Please enter text to continue."
+            "Text field is empty. Please enter both title and text to continue."
             )
         return cleaned_data
 
