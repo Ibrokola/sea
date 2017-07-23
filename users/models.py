@@ -15,7 +15,7 @@ from django.utils import timezone
 
 
 
-class MyUserManager(BaseUserManager):
+class UserManager(BaseUserManager):
     def create_user(self, username=None, email=None, password=None):
         """
 	    Creates and saves a User with the given email, username.
@@ -74,7 +74,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
-    objects = MyUserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
