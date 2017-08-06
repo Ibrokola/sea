@@ -108,21 +108,3 @@ class User(AbstractBaseUser):
      
     class Meta:
         db_table = "users"
-
-
-
-# class User(AbstractUser):
-#     #custom user model
-#     class Meta:
-#         db_table = "users"
-
-#     score = models.IntegerField(default=0)
-
-
-
-#     # def __str__(self):              # __unicode__ on Python 2
-#     #     return self.username
-     
-
-
-
