@@ -18,7 +18,7 @@ from forum.views import (
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^ib/admin/', admin.site.urls),
     url(r'^$', homepage, name='home'),
     url(r'^forum/', include('forum.urls', namespace='forum')),
     url(r'^u/', include('profiles.urls', namespace='profile')),

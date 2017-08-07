@@ -5,7 +5,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="/">
-            <h5><img src="{% static 'img/logo/logo3.png' %}" class="d-inline-block align-top" alt="S.E.F" width="25" height="25"> Sustainable Energy Forum</h5> 
+            <h5><img src="{% static 'img/logo/logo3.png' %}" class="d-inline-block align-top" alt="S.E.F" width="25" height="25"> Sustainable Energy Forum</h5>
         </a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="nav navbar-nav smooth-scroll mr-auto">
@@ -13,34 +13,28 @@
                 </li> -->
             </ul>
             <ul class="navbar-nav nav-flex-icons">
-            <li class="nav-item">
-                <!-- <a class="nav-link"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a> -->
-            </li>
-            {% if not request.user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'account_signup' %}"><i class="fa fa-sign-in"></i> <span class="hidden-sm-down">Register</span></a>
-            </li>
-            {% endif %}
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-user"></i> <span class="hidden-sm-down">My account</span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
-                    {% if not request.user.is_authenticated %}
-                    <a class="dropdown-item" href="{% url 'account_login' %}">Login</a>
-                    {% endif %}
-                    {% if request.user.is_authenticated %}
-                    <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
-                    <a class="dropdown-item" href="{% url 'profile:profile_user' %}">Profile</a>
-                    {% endif %}
-                </div>
-            </li>
+                <li class="nav-item">
+                    <!-- <a class="nav-link"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a> -->
+                </li>
+                {% if not request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_signup' %}"><i class="fa fa-sign-in"></i> <span class="hidden-sm-down">Register</span></a>
+                </li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-user"></i> <span class="hidden-sm-down">My account</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
+                        {% if not request.user.is_authenticated %}
+                        <a class="dropdown-item" href="{% url 'account_login' %}">Login</a> {% endif %} 
+                        {% if request.user.is_authenticated %}
+                        <a class="dropdown-item" href="{% url 'profile:profile_user' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a> 
+                        {% endif %}
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
-
-
-
-
-
