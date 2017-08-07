@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse
 from forum.models import Post
 from profiles.models import Profile #UserProfile as
 from .models import HomeCarousel, Marketing
@@ -8,7 +9,7 @@ def homepage(request):
     if request.user.is_authenticated():
         user = request.user
         posts_list = Post.objects.recent_posts_with_my_votes(user)
-        paginator = Paginator(posts_list, 20)
+        paginator = Paginator(posts_list, 15)
         page = request.GET.get('page')
         
         try:
