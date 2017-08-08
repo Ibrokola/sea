@@ -49,7 +49,7 @@
             						by <a href="{% url 'profile:profile_view' comment.author.username %}">{{ comment.author.username }}</a>
             					</span>
                                 <span> . </span>
-                                <span>{{comment.score}} points</span>
+                                <span>{{comment.score}} point{{ comment.score | pluralize }}</span>
                                 <span> . </span>
                                 <span class="comment-submission-time"><i class="fa fa-clock-o"></i> {{ comment.submission_time | naturaltime }}</span> 
                                 {% if request.user.username == comment.author.username %}

@@ -15,7 +15,7 @@
 				<div class="post-line-2">
 					<div class="post-score">
 						by {{ post.author }} .
-						{{ post.score }} points .
+						{{ post.score }} point{{ post.score | pluralize }} .
 						<a><i class="fa fa-comments-o"></i> {{ post.num_comments }}
 						. <i class="fa fa-clock-o"></i> {{ post.submission_time | naturaltime }}
 						{# include "forum/snippet/post_vote_control.html" with obj_type='posts' obj=post #}
