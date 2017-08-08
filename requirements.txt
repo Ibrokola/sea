@@ -19,6 +19,8 @@ django-bootstrap-form==3.2.1
 django-coverage-plugin==1.4
 django-crispy-forms==1.6.1
 django-debug-toolbar==1.8
+django-jsonfield==1.0.1
+django-notify-x==0.1.7
 django-silk==1.0.0
 django-storages==1.6.3
 django-toolbelt==0.0.1
