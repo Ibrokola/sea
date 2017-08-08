@@ -1,4 +1,5 @@
 {% load static %}
+{#  #}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -115,15 +116,41 @@
     {% if request.user.is_authenticated %}
     <script src="{% static 'pushnote.js' %}"></script>
     {% endif %} {% block before-body-close %} {% endblock %}
-    <!-- <script>
-        // SideNav init
-        $(".button-collapse").sideNav();
-        var el = document.querySelector('.custom-scrollbar');
-        Ps.initialize(el);
-    </script> -->
 
     <script>
         new WOW().init();
+    /*    
+        $(document).ready(function(){
+            $(".notification-toggle").click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'notification_notice_settings' %}",
+                    data:{
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function(data){
+                        $("#notification_dropdown").html('<li class="dropdown-header"></li>');
+                        var count = data.count
+                        //console.log(count)
+                        if (count == 0){
+                            var url = "{% url 'notification_notice_settings' %}"
+                            $("#notification_dropdown").append("<li><a href='" + url + "'>View All Notifications</a></li>")
+                        } else{
+                        $(data.notifications).each(function(){
+                            var link = this;
+                            $("#notification_dropdown").append("<li>" + link + "</li>")
+                        })
+                        }
+                        console.log(data.notifications);
+                    },
+                    error: function(rs, e){
+                        console.log(rs);
+                        console.log(e);
+                    }
+                })
+            })
+        }) */
     </script>
 </body>
 

@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^u/', include('profiles.urls', namespace='profile')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnote/', include('pushnote.urls')),
-    url(r"^notifications/", include("pinax.notifications.urls")),
     url(r'^', include('django.contrib.auth.urls')),
 
     url(r'^api/posts/(?P<post_id>\d+)/upvote$', upvote_post, name="upvote_post"),

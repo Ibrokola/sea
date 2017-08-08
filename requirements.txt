@@ -36,7 +36,6 @@ newrelic==2.88.1.73
 oauthlib==2.0.2
 olefile==0.44
 Pillow==4.2.0
-pinax-notifications==4.0.0
 psycopg2==2.7.1
 py-vapid==0.8.1
 pycodestyle==2.3.1
