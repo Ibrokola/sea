@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'crispy_forms',
     'storages',
+    'pinax.notifications',
 
     'forum',
     'home',
