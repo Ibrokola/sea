@@ -125,7 +125,7 @@
                 e.preventDefault();
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'notification_notice_settings' %}",
+                    url: "{# url 'notification_notice_settings' #}",
                     data:{
                         csrfmiddlewaretoken: "{{ csrf_token }}",
                     },
@@ -134,7 +134,7 @@
                         var count = data.count
                         //console.log(count)
                         if (count == 0){
-                            var url = "{% url 'notification_notice_settings' %}"
+                            var url = "{# url 'notification_notice_settings' #}"
                             $("#notification_dropdown").append("<li><a href='" + url + "'>View All Notifications</a></li>")
                         } else{
                         $(data.notifications).each(function(){
