@@ -156,7 +156,7 @@ h1 {
     background-color: #e6f1f4;
     border: 2px solid #87CEEB;
     border-radius: 5px 15px 20px 9px;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
     padding-left: 8px;
     padding-right: 8px;
 }
@@ -164,7 +164,7 @@ h1 {
     background-color: #afeeee;
     border: 1px solid #87CEEB;
     border-radius: 4px 15px 10pxx;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .08);
     padding-left: 8px;
     padding-right: 8px;
 }
