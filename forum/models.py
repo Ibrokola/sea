@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from .utils import unique_slug_generator
 from django.db import models
 from django.db.models import F
+from notify.signals import notify
 
 from pushnote.models import Subscription
 
@@ -357,7 +358,6 @@ class Comment(Votable):
                     comment.text,
                     reverse("forum:reply_to_comment", args=[comment.id])
                 )
-
         if(comment.parent_comment.author.username != author.username):
             notify_users(
                     [comment.parent_comment.author],
@@ -365,11 +365,13 @@ class Comment(Votable):
                     comment.text,
                     reverse("forum:reply_to_comment", args=[comment.id])
                 )
-
         return comment
 
     def __str__(self):
         return self.text
+
+    def get_absolute_url(self):
+        return reverse('forum:discussion', kwargs={"post_id": self.pk})
 
 def _find_next_wbs(post, parent_wbs=None):
     if not parent_wbs:

@@ -1,5 +1,8 @@
 {% load static %}
-{#  #}
+{% load notification_tags %}
+{# render_notifications using request.user.notifications.active.prefetch #}
+{# include_notify_js_variables #}
+{# user_notifications #}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -76,6 +79,9 @@
             }
         }
     </style>
+    {% block extrahead %}
+        {% include_notify_js_variables %}
+    {% endblock %}
 
 </head>
 
@@ -102,8 +108,10 @@
     <!-- JQuery -->
     <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
 
-    <!-- Tooltips -->
+    <!-- tether -->
     <script type="text/javascript" src="{% static 'js/tether.min.js' %}"></script>
+
+    <script src="{% static 'notify/notifyX.js' %}"></script>
 
     <!-- Bootstrap core JavaScript -->
     <script type="text/javascript" src="{% static 'js/bootstrap.js' %}"></script>
@@ -150,6 +158,24 @@
                     }
                 })
             })
+        }) */
+        /*
+        function updateNotification(){
+            var badge = $("#note-count-badge");
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'notifications:update' %}",
+                    success:function(data){
+                        badge.text(data.count);
+                    },
+                    error: function(response, error){
+                        console.log(response);
+                        console.log(error);
+                    }
+                })
+        }
+        $(document).ready(function(){
+            updateNotification();
         }) */
     </script>
 </body>

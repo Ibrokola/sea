@@ -16,6 +16,7 @@ from users.models import User
 
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
+from notify.signals import notify
 
 from .forms import CommentForm, StartDiscussionForm
 from .models import Post, Vote, Comment, Favourite
@@ -45,11 +46,12 @@ class DiscussionView(View):
             return HttpResponseRedirect(reverse('account_login'))
 
     def post(self, request, post_id):
-        user = request.user
-        post = Post.objects.get_post_with_my_votes(post_id, user)
+        # user = request.user
+        post = Post.objects.get_post_with_my_votes(post_id, request.user)
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = post.add_comment(form.cleaned_data['text'], user)
+            comment = post.add_comment(form.cleaned_data['text'], request.user)
+            notify.send(request.user, recipient=post.author, actor=request.user, verb='replied your post', target=post, nf_type='replied_a_post')
             post_url = reverse('forum:discussion', args=[post.id])
             return HttpResponseRedirect(post_url)
         else:
@@ -92,6 +94,7 @@ class ReplyToComment(LoginRequiredMixin, View):
             }
             return render(request, template, context)
         comment = parent_comment.reply(form.cleaned_data['text'], request.user)
+        notify.send(request.user, recipient=parent_comment.author, actor=request.user, verb='replied your comment', object=comment, target=parent_comment, nf_type='replied_a_comment')
         post_url = reverse('forum:discussion', args=[parent_comment.post.id])
         return HttpResponseRedirect(post_url)
 

@@ -1,4 +1,5 @@
 {% load static %}
+{% load notification_tags %}
 <nav class="navbar fixed-top navbar-toggleable-md navbar-dark scrolling-navbar">
     <div class="container">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -24,13 +25,24 @@
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown" style="padding-top: 8px;">
                   <a href="#" class="dropdown-toggle notification-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                      <i class="fa fa-bell" aria-hidden="true"></i>
+                      <i class="fa fa-bell" aria-hidden="true"></i><span id="note-count-badge" class="badge red z-depth-1"></span>
                     </a>
                   <!-- <span class="caret"></span> -->
-                  <div id='notification_dropdown' class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink">
-                    <!-- <ul class="dropdown-menu" id='notification_dropdown'>
-                    </ul> -->
-                  </div>
+                  <!-- <div id='notification_dropdown' class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink"> -->
+                    <ul class="dropdown-menu notification-box-list notificationPanel" id='notification_dropdown' style="position:relative; width: 100%; overflow: hidden; min-width: 250px;">
+                        {% render_notifications using request.user.notifications.active.prefetch for box %}
+                        {# user_notifications for box #} 
+                        <!-- <li> -->
+                            <!-- <div class="notificationPanel"> -->
+                                <!-- <div class="notificationContent" style="overflow-y: scroll; height: 100%;"> -->
+                                    <!-- <ul class="notification-box-list" style="margin:0; padding:0;list-style-type: none;"> -->
+                                        
+                                     <!-- </ul>  <-->
+                                <!-- </div> -->
+                            <!-- </div> -->
+                        <!-- </li> -->
+                    </ul> 
+                  <!-- </div> -->
                 </li>
                 {% endif %}
                 <li class="nav-item dropdown">

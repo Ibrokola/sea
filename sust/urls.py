@@ -24,7 +24,7 @@ urlpatterns = [
     url(r'^u/', include('profiles.urls', namespace='profile')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnote/', include('pushnote.urls')),
-    url(r'^notifications/', include('notify.urls', 'notifications')),
+    url(r'^notifications/', include('notify.urls', namespace='notifications')),
 
     url(r'^', include('django.contrib.auth.urls')),
 
