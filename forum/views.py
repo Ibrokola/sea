@@ -51,7 +51,7 @@ class DiscussionView(View):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = post.add_comment(form.cleaned_data['text'], request.user)
-            notify.send(request.user, recipient=post.author, actor=request.user, verb='replied your post', target=post, nf_type='replied_a_post')
+            notify.send(request.user, recipient=post.author, actor=request.user, verb='commented on your post', target=post, nf_type='replied_a_post')
             post_url = reverse('forum:discussion', args=[post.id])
             return HttpResponseRedirect(post_url)
         else:
@@ -94,8 +94,8 @@ class ReplyToComment(LoginRequiredMixin, View):
             }
             return render(request, template, context)
         comment = parent_comment.reply(form.cleaned_data['text'], request.user)
-        notify.send(request.user, recipient=parent_comment.author, actor=request.user, verb='replied your comment', object=comment, target=parent_comment, nf_type='replied_a_comment')
         post_url = reverse('forum:discussion', args=[parent_comment.post.id])
+        notify.send(request.user, recipient=parent_comment.author, actor=request.user, verb='replied your comment', object=comment, target=parent_comment, nf_type='replied_a_comment')
         return HttpResponseRedirect(post_url)
 
 

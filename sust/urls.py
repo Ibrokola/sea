@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.generic import TemplateView
 
 from home.views import homepage
 from forum.views import (
@@ -20,6 +20,9 @@ from forum.views import (
 urlpatterns = [
     url(r'^ib/admin/', admin.site.urls),
     url(r'^$', homepage, name='home'),
+    url(r'^terms/$', TemplateView.as_view(template_name="terms.html")),
+    url(r'^privacy/$', TemplateView.as_view(template_name="privacy.html")),
+    url(r'^about/$', TemplateView.as_view(template_name="about.html")),
     url(r'^forum/', include('forum.urls', namespace='forum')),
     url(r'^u/', include('profiles.urls', namespace='profile')),
     url(r'^accounts/', include('allauth.urls')),

@@ -2,8 +2,8 @@
 {% load static %}
 <li data-nf-id="{{ notification.id }}"
 class="notification list-group-item {{ notification.read|yesno:'read,unread' }}">
-    <a href="{{ notification.actor_url }}">{{ notification.actor }}</a> {{ notification.verb }}
-    <span class="timesince">{{ notification.created|timesince }} ago</span>
+    <p><strong>{{ notification.actor }}</strong> {{ notification.verb }} <a href="{{ notification.target_url }}">{{ notification.target|truncatechars:10 }}</a>
+    <span class="timesince">{{ notification.created|timesince }} ago</span></p>
 
     <button data-id="{{ notification.id }}" class="mark-notification btn btn-default btn-sm"
         data-mark-action="{{ notification.read|yesno:'unread,read' }}"
@@ -14,3 +14,5 @@ class="notification list-group-item {{ notification.read|yesno:'read,unread' }}"
     </button>
     <button class="delete-notification btn btn-default btn-sm" data-id="{{ notification.id }}">X</button>
 </li>
+
+<!-- <a href="{{ notification.actor_url }}"></a> -->
