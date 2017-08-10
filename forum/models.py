@@ -17,7 +17,7 @@ from notify.signals import notify
 from pushnote.models import Subscription
 
 
-SERVER_URL = "https://sustenergy.herokuapp.com/"
+SERVER_URL = "https://www.sustenergy.ca"
 
 UPVOTE = 1
 DOWNVOTE = 2
