@@ -15,6 +15,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
+export AIRBRAKE_API_KEY = config('AIRBRAKE_API_KEY')
+export AIRBRAKE_PROJECT_ID = config('AIRBRAKE_PROJECT_ID')
+export AIRBRAKE_ENVIRONMENT = config('AIRBRAKE_ENVIRONMENT')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
