@@ -8,7 +8,7 @@ var updateSuccess = function (response) {
     if(response.unread_count > 0){
         $nf_count_badge.html(response.unread_count);
         // $nf_count_badge.html(response.retrieved);
-    }else{
+    }else if(response.unread_count === 0 | response.action === "read"){
         $nf_count_badge.remove(response.unread_count)
     }
 };
