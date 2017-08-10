@@ -49,6 +49,7 @@ class DiscussionView(View):
         # user = request.user
         post = Post.objects.get_post_with_my_votes(post_id, request.user)
         form = CommentForm(request.POST)
+        # notification_count = request.user.notifications.count()
         if form.is_valid():
             comment = post.add_comment(form.cleaned_data['text'], request.user)
             notify.send(request.user, recipient=post.author, actor=request.user, verb='commented on your post', target=post, nf_type='replied_a_post')
@@ -59,7 +60,8 @@ class DiscussionView(View):
             context = {
                 "post": post,
                 "form": form,
-                "comments": []
+                "comments": [],
+                # "notification_count": notification_count
             }
             return render(request, template, context)
 
@@ -84,13 +86,15 @@ class ReplyToComment(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         parent_comment = get_object_or_404(Comment, pk=kwargs['id'])
         form = CommentForm(request.POST)
+        # notification_count = request.user.notifications.count()
         if not form.is_valid():
             post = parent_comment.post
             template = 'forum/reply_to_comment.html'
             context = {
                 "post": post,
                 "parent_comment": parent_comment,
-                "form": form
+                "form": form,
+                # "notification_count":notification_count
             }
             return render(request, template, context)
         comment = parent_comment.reply(form.cleaned_data['text'], request.user)

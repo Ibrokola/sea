@@ -24,9 +24,11 @@
                 {% endif %}
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown" style="padding-top: 8px;">
-                  <a href="#" class="dropdown-toggle notification-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <a href="#" class="dropdown-toggle notification-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                       <i class="fa fa-bell" aria-hidden="true"></i><span id="note-count-badge" class="badge red z-depth-1"></span>
-                    </a>
+                      <!-- {{ user.notifications.count }} -->
+                      <!-- {{ user.notifications.unread.count }} -->
+                </a>
                   <!-- <span class="caret"></span> -->
                   <!-- <div id='notification_dropdown' class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownMenuLink"> -->
                     <ul class="dropdown-menu notification-box-list notificationPanel" id='notification_dropdown' style="position:relative; width: 100%; overflow: hidden; min-width: 250px;">
