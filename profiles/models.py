@@ -38,7 +38,7 @@ def new_user_reciever(sender, instance, created, *args, **kwargs):
     try:
         msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
         msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        # msg.send()
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
 
