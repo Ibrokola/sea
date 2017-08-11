@@ -21,6 +21,7 @@ django-crispy-forms==1.6.1
 django-debug-toolbar==1.8
 django-jsonfield==1.0.1
 django-notify-x==0.1.7
+django-post-office==3.0.3
 django-silk==1.0.0
 django-storages==1.6.3
 django-toolbelt==0.0.1
@@ -33,6 +34,7 @@ http-ece==0.7.1
 idna==2.5
 Jinja2==2.9.6
 jmespath==0.9.3
+jsonfield==2.0.2
 markdown2==2.3.4
 MarkupSafe==1.0
 newrelic==2.88.1.73
