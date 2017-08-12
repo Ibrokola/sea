@@ -24,23 +24,23 @@ def new_user_reciever(sender, instance, created, *args, **kwargs):
 	# else:
 	# 	messages.error(request, "There was an error with your account. Please contact us.")
 
-    subject = 'Welcome to Sustainable Energy Forum'
-    from_email = 'no-reply@sustenergy.ca'
-    to = instance.email 
-    plaintext = get_template('email/welcome.txt')
-    html = get_template('email/welcome.html')
-    recv = {
-        'username': instance.username
-    } 
-    text_content = plaintext.render(recv)
-    html_content = html.render(recv)
+        subject = 'Welcome to Sustainable Energy Forum'
+        from_email = 'no-reply@mail.sustenergy.ca'
+        to = instance.email 
+        plaintext = get_template('email/welcome.txt')
+        html = get_template('email/welcome.html')
+        recv = {
+            'username': instance.username
+            } 
+        text_content = plaintext.render(recv)
+        html_content = html.render(recv)
 
-    try:
-        msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-        msg.attach_alternative(html_content, "text/html")
-        # msg.send()
-    except BadHeaderError:
-        return HttpResponse('Invalid header found.')
+        try:
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+        except BadHeaderError:
+            return HttpResponse('Invalid header found.')
 
 post_save.connect(new_user_reciever, sender=User)
 
