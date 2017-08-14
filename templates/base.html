@@ -1,8 +1,5 @@
 {% load static %}
-{% load notification_tags %}
-{# render_notifications using request.user.notifications.active.prefetch #}
-{# include_notify_js_variables #}
-{# user_notifications #}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,16 +75,41 @@
                 }
             }
         }
+        .seeAll {
+            background:#F6F7F8;
+            padding:8px;
+            font-size:12px;
+            font-weight:bold;
+            border-top:solid 1px rgba(100, 100, 100, .30);
+            text-align:center;
+        }
+        .note {
+            display:block; 
+            color:#333;  
+            font-size:13px; 
+            padding:8px 0 8px 0; 
+            margin:0; 
+            border-bottom:solid 1px rgba(100, 100, 100, .30);
+            text-align:center;
+        }
+        .seeAll a {
+            color:#3b5998;
+        }
+        .seeAll a:hover {
+            background:#F6F7F8;
+            color:#3b5998;
+            text-decoration:none;
+        }
     </style>
     {% block extrahead %}
-        {% include_notify_js_variables %}
+        {# include_notify_js_variables #}
     {% endblock %}
 
 <script type="text/javascript">
     function createKeenWebAutoCollector(){window.keenWebAutoCollector=window.KeenWebAutoCollector.create({projectId:'598c0cd2c9e77c00017ec4d3',writeKey:'BF43BDD173A424454A0EA36E5D7E495C4833EFB7B5A3882F0BC54C3E285E0E51659072275DE22FFF2B58DC39AEFE19A98D6212866AECD264E13A0671D6C55FFA2825E9AB38EB3B09770D5DC56ED84322E1E2B1E84B9601C98A9744E6BD78CA06',onloadCallbacks:window.keenWebAutoCollector.onloadCallbacks}),window.keenWebAutoCollector.loaded()}function initKeenWebAutoCollector(){window.keenWebAutoCollector.domReady()?window.createKeenWebAutoCollector():document.addEventListener("readystatechange",function(){window.keenWebAutoCollector.domReady()&&window.createKeenWebAutoCollector()})}window.keenWebAutoCollector={onloadCallbacks:[],onload:function(a){this.onloadCallbacks.push(a)},domReady:function(){return["ready","complete"].indexOf(document.readyState)>-1}};
 </script>
 <script async type="text/javascript" src="https://d26b395fwzu5fz.cloudfront.net/keen-web-autocollector-1.0.8.min.js" onload="initKeenWebAutoCollector()"></script>
-    
+
 </head>
 
 <body class="mdb-skin">
@@ -105,6 +127,19 @@
     <footer>
         {% include 'footer.html' %}
     </footer>
+    <script src="https://www.gstatic.com/firebasejs/4.2.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAbtzzaZXETgPcayu7Q-ed2qLxRTfchbHo",
+            authDomain: "sustainable-energy-for-all.firebaseapp.com",
+            databaseURL: "https://sustainable-energy-for-all.firebaseio.com",
+            projectId: "sustainable-energy-for-all",
+            storageBucket: "sustainable-energy-for-all.appspot.com",
+            messagingSenderId: "40210028475"
+        };
+        firebase.initializeApp(config);
+    </script>
 
     <!-- JQuery -->
     <script type="text/javascript" src="{% static 'js/jquery-3.1.1.min.js' %}"></script>
@@ -126,6 +161,7 @@
     <script src="{% static 'pushnote.js' %}"></script>
     {% endif %} {% block before-body-close %} {% endblock %}
 
+
     <script>
         new WOW().init();
         /*
@@ -133,7 +169,7 @@
             var badge = $("#note-count-badge");
                 $.ajax({
                     type: "GET",
-                    url: "{% url 'notifications:update' %}",
+                    url: "{# url 'notifications:update' #}",
                     success:function(data){
                         badge.text(data.count);
                     },
@@ -146,6 +182,70 @@
         $(document).ready(function(){
             updateNotification();
         }) */
+        $(document).ready(function(){
+            var timeDelay = 2000;
+            setTimeout(updateNotification, timeDelay);
+            function updateNotification(){
+                var badge = $("#note-count-badge");
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'get_notifications_ajax' %}",
+                    data:{
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success:function(data){
+                        var count = data.count
+                        if (count == 0){
+                            return false;
+                        }else{
+                            badge.text(data.count);
+                            return true
+                        }
+                    },
+                    error: function(response, error){
+                        console.log(response);
+                        console.log(error);
+                    }
+                })
+            } 
+            $('#noti_button').click(function () {
+                $('#note-count-badge').fadeOut('slow');
+                return true;
+            });
+
+            $("#noti_button").click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'get_notifications_ajax' %}",
+                    data:{
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                    },
+                    success: function(data){
+                        $("#notification_dropdown").html('<h3 style="display:block; color:#333; font-weight:bold; font-size:13px; padding:8px; margin:0; border-bottom:solid 1px rgba(100, 100, 100, .30);">Notifications</h3>');
+                        var count = data.count
+                        //console.log(count)
+                        if (count > 0){
+                            //var url = "{# url 'notifications_all' #}"
+                            $(data.notifications).each(function(){
+                            var link = this;
+                            //$('#note-count-badge').text(count);    
+                            $("#notification_dropdown").append("<li class='note'>" + link + "</li>");
+                        })
+                        }
+                        var url = "{% url 'notifications_all' %}"
+                        $("#notification_dropdown").append("<li class='seeAll'><a href='" + url + "'>View All</a></li>")
+                        //console.log(data.notifications);
+                        //$('#note-count-badge').fadeOut('slow');
+                        //return true;
+                    },
+                    error: function(rs, e){
+                        console.log(rs);
+                        console.log(e);
+                    }
+                })
+            })
+        })
     </script>
 </body>
 

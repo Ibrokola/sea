@@ -1,6 +1,5 @@
 import os
 import smtplib
-import integrate
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -53,7 +52,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.twitter',
     'allauth.socialaccount.providers.google',
     'crispy_forms',
-    'notify',
+    # 'notify',
+    'notifications',
 
     'users',
     'forum',
@@ -82,6 +82,9 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = None
 SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_REDIRECT_URL = '/'
+
+NOTIFICATIONS_USE_JSONFIELD = True
+NOTIFICATIONS_SOFT_DELETE = True
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 

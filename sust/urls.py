@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
+from notifications.views import all, read, get_notifications_ajax
 
 from home.views import homepage
 from forum.views import (
@@ -14,7 +15,7 @@ from forum.views import (
                     downvote_comment,
                     undo_vote_on_comment
                 )
-                
+
 
 
 urlpatterns = [
@@ -27,7 +28,9 @@ urlpatterns = [
     url(r'^u/', include('profiles.urls', namespace='profile')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^pushnote/', include('pushnote.urls')),
-    url(r'^notifications/', include('notify.urls', namespace='notifications')),
+    url(r'^notifications/$', all, name='notifications_all'),
+    url(r'^notifications/ajax/$', get_notifications_ajax, name='get_notifications_ajax'),
+    url(r'^notifications/read/(?P<id>\d+)/$', read, name='notifications_read'),
 
     url(r'^', include('django.contrib.auth.urls')),
 

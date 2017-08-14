@@ -1,14 +1,20 @@
-{% extends "notifications/base.html" %}
-{% load i18n %}
-{% load notification_tags %}
-{% block title %}{% trans "Notifications" %}{% endblock %}
+{% extends 'base.html'%}
+
+
+
 {% block content %}
-    <hr>
-    <button class="mark-all-notifications" data-mark-action="read">{% trans "Mark all as read" %}</button>
-    <button class="mark-all-notifications" data-mark-action="unread">{% trans "Mark all as unread" %}</button>
-    <ul class="notifications list-group">
-    {% if notifications %}
-    {% render_notifications using notifications %}
-    {% endif %}
-    </ul>
+<div  style="padding-top: 120px"></div>
+<!-- <div class="main main-raised"> -->
+    <div class="container">
+		<h4 class="text-center">Notifications</h4>
+		<table class="table" style="margin-top: 20px;">
+		{% for note in notifications %}
+		<tr>
+			<td>{{ note|safe }}</td>
+			<td>{% if note.read %}Read{% else %}Unread{% endif %}</td>
+		</tr>
+		{% endfor %}	
+		</table>
+	</div>
+<!-- </div> -->
 {% endblock %}

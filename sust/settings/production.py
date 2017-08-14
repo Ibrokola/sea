@@ -1,6 +1,5 @@
 import os
 import smtplib
-import integrate
 
 from sust.aws.conf import *
 from decouple import config
@@ -17,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['sustenergy.herokuapp.com', '.sustenergy.ca']
 
@@ -69,7 +68,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'crispy_forms',
     'storages',
-    'notify',
+    'notifications',
 
     'forum',
     'home',
@@ -79,8 +78,6 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 1
-
-NOTIFY_UPDATE_TIME_INTERVAL = 200000
 
 AUTH_USER_MODEL = 'users.User'
 
@@ -101,10 +98,13 @@ ACCOUNT_UNIQUE_EMAIL = True
 # SOCIALACCOUNT_EMAIL_VERIFICATION = ACCOUNT_EMAIL_VERIFICATION
 LOGIN_REDIRECT_URL = '/'
 
+# PUSHER_APP_ID = u""
+# PUSHER_KEY = u""
+# PUSHER_SECRET = u""
+# PUSHER_CLUSTER = u""
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-# AUTH_USER_MODEL = 'forum.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

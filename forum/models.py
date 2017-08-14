@@ -12,7 +12,8 @@ from django.core.urlresolvers import reverse
 from .utils import unique_slug_generator
 from django.db import models
 from django.db.models import F
-from notify.signals import notify
+# from notify.signals import notify
+# from notifications.signals import notify
 
 from pushnote.models import Subscription
 
@@ -251,6 +252,11 @@ class Post(Votable):
     def __str__(self):
         return self.title
 
+# def my_handler(sender, instance, created, **kwargs):
+#     notify.send(instance, verb='was saved', recipeint=instance)
+
+# post_save.connect(my_handler, sender=Post)
+
 def post_pre_save_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = unique_slug_generator(instance)
@@ -372,6 +378,7 @@ class Comment(Votable):
 
     def get_absolute_url(self):
         return reverse('forum:discussion', kwargs={"post_id": self.pk})
+
 
 def _find_next_wbs(post, parent_wbs=None):
     if not parent_wbs:
