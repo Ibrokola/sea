@@ -100,7 +100,7 @@ class ReplyToComment(LoginRequiredMixin, View):
             }
             return render(request, template, context)
         comment = parent_comment.reply(form.cleaned_data['text'], request.user)
-        notify.send(request.user, recipient=parent_comment.author, verb='replied to your comment on', target=parent_comment.post)
+        notify.send(request.user, recipient=parent_comment.author, verb='replied to your comment', target=parent_comment.post)
         post_url = reverse('forum:discussion', args=[parent_comment.post.id])
         return HttpResponseRedirect(post_url)
 
