@@ -164,24 +164,6 @@
 
     <script>
         new WOW().init();
-        /*
-        function updateNotification(){
-            var badge = $("#note-count-badge");
-                $.ajax({
-                    type: "GET",
-                    url: "{# url 'notifications:update' #}",
-                    success:function(data){
-                        badge.text(data.count);
-                    },
-                    error: function(response, error){
-                        console.log(response);
-                        console.log(error);
-                    }
-                })
-        }
-        $(document).ready(function(){
-            updateNotification();
-        }) */
         $(document).ready(function(){
             var timeDelay = 2000;
             setTimeout(updateNotification, timeDelay);
