@@ -64,7 +64,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-ACCOUNT_ADAPTER = 'user.custom_adpt.CustomAccountAdapter'
+ACCOUNT_ADAPTER = 'users.custom_adpt.CustomAccountAdapter'
 
 AUTH_USER_MODEL = 'users.User'
 
