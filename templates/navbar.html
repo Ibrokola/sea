@@ -18,9 +18,11 @@
                     <!-- <a class="nav-link"><i class="fa fa-envelope"></i> <span class="hidden-sm-down">Contact</span></a> -->
                 </li>
                 {% if not request.user.is_authenticated %}
+                {% if request.get_full_path == "/" %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account_signup' %}"><i class="fa fa-sign-in"></i> <span class="hidden-sm-down">Register</span></a>
                 </li>
+                {% endif %}
                 {% endif %}
                 {% if request.user.is_authenticated %}
                 <li class="nav-item dropdown" style="padding-top: 8px;">
