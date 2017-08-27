@@ -206,7 +206,7 @@ class PostsManager(models.Manager):
         return mapping[vote_type]
 
 
-DEFAULT_MESSAGE = "check out this video"
+DEFAULT_MESSAGE = "share this post"
 class Post(Votable):
     class Meta:
         db_table = "posts"
