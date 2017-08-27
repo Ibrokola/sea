@@ -206,6 +206,7 @@ class PostsManager(models.Manager):
         return mapping[vote_type]
 
 
+DEFAULT_MESSAGE = "check out this video"
 class Post(Votable):
     class Meta:
         db_table = "posts"
@@ -217,8 +218,10 @@ class Post(Votable):
     slug = models.SlugField(max_length=500,null=True, blank=True)
     # url = models.URLField(blank=True)
     text = models.TextField(max_length=8192, blank=True)
+    share_message = models.CharField(max_length=500, default=DEFAULT_MESSAGE)
     submission_time = models.DateTimeField(auto_now_add=True)
     num_comments = models.IntegerField(default=0)
+
     # views = models.IntegerField(default=0)
 
     # def get_absolute_url(self):
