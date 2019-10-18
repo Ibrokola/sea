@@ -64,7 +64,7 @@ pycryptodome==3.6.6
 pyelliptic==1.5.7
 Pygments==2.2.0
 PyJWT==1.5.2
-pyOpenSSL==17.2.0
+pyOpenSSL==17.5.0
 python-dateutil==2.6.1
 python-decouple==3.0
 python-http-client==2.4.0
