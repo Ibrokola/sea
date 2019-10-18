@@ -74,7 +74,7 @@ pytz==2017.2
 pywebpush==0.8.0
 query-string==0.0.12
 request==0.0.13
-requests==2.18.3
+requests==2.20.0
 requests-oauthlib==0.8.0
 s3transfer==0.1.10
 setupfiles==0.0.50
