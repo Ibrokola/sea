@@ -62,7 +62,7 @@ pycparser==2.18
 pycrypto==2.6.1
 pycryptodome==3.6.6
 pyelliptic==1.5.7
-Pygments==2.2.0
+Pygments==2.7.4
 PyJWT==1.5.2
 pyOpenSSL==17.5.0
 python-dateutil==2.6.1
