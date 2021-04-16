@@ -21,7 +21,7 @@ django-appconf==1.0.2
 django-bootstrap-form==3.2.1
 django-coverage-plugin==1.4
 django-crispy-forms==1.6.1
-django-debug-toolbar==1.8
+django-debug-toolbar==1.11.1
 django-jsonfield==1.0.1
 django-model-utils==3.0.0
 django-picklefield==1.0.0
