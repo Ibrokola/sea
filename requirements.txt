@@ -44,7 +44,7 @@ idna==2.5
 Jinja2==2.9.6
 jmespath==0.9.3
 jsonfield==2.0.2
-markdown2==2.3.4
+markdown2==2.4.0
 MarkupSafe==1.0
 ndg-httpsclient==0.4.2
 newrelic==2.88.1.73
