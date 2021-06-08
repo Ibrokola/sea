@@ -50,7 +50,7 @@ ndg-httpsclient==0.4.2
 newrelic==2.88.1.73
 oauthlib==2.0.2
 olefile==0.44
-Pillow==4.2.0
+Pillow==8.2.0
 post==0.0.13
 psycopg2==2.7.1
 public==0.0.38
